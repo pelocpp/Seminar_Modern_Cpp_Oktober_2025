@@ -46,7 +46,8 @@ static void main_seminar_stl_02()
 
 static void main_seminar_stl_03()
 {
-    std::vector<int> numbers;
+    //std::vector<int> numbers;
+    std::list<int> numbers;
 
     // füllen
     for (int i = 0; i != 3; ++i) {
@@ -54,7 +55,9 @@ static void main_seminar_stl_03()
     }
 
     // Konzept von Iteratoren
-    std::vector<int>::iterator  pos = numbers.begin();
+    std::list<int>::iterator pos = numbers.begin();
+
+    auto pos2 = numbers.begin();
 
     // pos ist nun die Position des ersten Elements
     int elem = *pos;
@@ -123,6 +126,7 @@ static void main_seminar_stl_05()
     }
 }
 
+// C-Funktion // freie Funktion
 static void output(int elem)
 {
     int m = elem;
@@ -148,8 +152,80 @@ static void main_seminar_stl_06()
     );
 }
 
+// =====================================
+
+class Output
+{
+private:
+    std::string m_header;
+
+public:
+    Output (std::string header) :m_header (header) {}
+
+    void operator() (int elem) {
+        std::println("{}: {}", m_header, elem);
+    }
+};
+
+static void main_seminar_stl_07()
+{
+    std::vector<int> numbers;
+
+    // füllen
+    for (int i = 0; i != 3; ++i) {
+        numbers.push_back(2 * i);
+    }
+
+    // Konzept von Algorithmen:
+    // Beispiel: Durchlaufen (Traversieren) eines Containers
+    Output out (">>> ");
+
+    std::for_each(
+        numbers.begin(),
+        numbers.end(),
+        out // keine freie Funktion, Methode eines Objekts stattdessen
+            // In Wirklichkeit: Ein Operator()
+    );
+}
+
+static void main_seminar_stl_08()
+{
+    std::vector<int> numbers;
+
+    for (int i = 0; i != 3; ++i) {
+        numbers.push_back(2 * i);
+    }
+
+    const std::string header = ">>> ";
+
+    std::for_each(
+        numbers.begin(),
+        numbers.end(),
+        [&] (int elem) {
+            std::println("{}: {}", header, elem);
+        }
+    );
+}
+
+
+static void main_seminar_stl_09()
+{
+    std::vector<int> numbers;
+
+    for (int i = 0; i != 3; ++i) {
+        numbers.push_back(2 * i);
+    }
+
+    const std::string header = ">>> ";
+
+    // for_each: C++ 11
+    for (auto elem : numbers) {
+        std::println("{}: {}", header, elem);
+    }
+}
+
 
 void main_seminar_stl()
 {
-    main_seminar_stl_06();
+    main_seminar_stl_09();
 }

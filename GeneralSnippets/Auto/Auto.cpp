@@ -10,6 +10,21 @@ namespace Auto_Examples {
 
     static void test_01() {
 
+        // Python
+        // x = 123;
+
+        // JavaScript
+        // var n;
+        // n = 123.435;
+
+        // Lexikon von C/C++: Konstanten ==> Datentyp
+
+        auto m = 123;  // Type Deduction // Typableitung
+
+        int m1 = 123;
+
+
+
         // type deduction / type inference
 
         auto a = 1;                  // int
@@ -36,23 +51,25 @@ namespace Auto_Examples {
 
     static std::map<int, std::string> getFunction() {
 
-        return {};
+        return std::map<int, std::string>{};  // Default-Konstruktor
     }
 
     static void test_02() {
 
-        auto n{ 123 };                   // n is type of int
+        auto n = 123;                   // n is type of int
 
-        auto result{ getFunction() };    // result is type of ...
+        auto result = getFunction();    // result is type of ...
 
-        std::map<int, std::string> result2 {
-            getFunction()
-        };
+        std::map<int, std::string> result2 = getFunction();
+        
     }
 
     // ---------------------------------------------------------------------
 
     static void test_03() {
+
+        // Typ eines Einzelnen Elements:
+        // std::pair<int, std::string>
 
         std::map<int, std::string> anotherMap{ { 1, "Hello"  } };
 
@@ -69,6 +86,51 @@ namespace Auto_Examples {
     {
         return f1 + f2;
     }
+
+    //static auto tueWas(bool flag, float f, double d) -> double
+    //{
+    //    if (flag) {
+    //        return d;
+    //    }
+    //    else {
+    //        return f;
+    //    }
+    //}
+
+   // template <typename T, typename U>
+    
+    //static auto tueWas(bool flag, T f, U d) -> decltype( f+d )
+    //{
+    //    if (flag) {
+    //        return d;
+    //    }
+    //    else {
+    //        return f;
+    //    }
+    //}
+
+    template <typename T, typename U>
+
+    static decltype ( std::declval<T>() + std::declval<U>() )
+        tueWas(bool flag, T f, U d)
+    {
+        if (flag) {
+            return d;
+        }
+        else {
+            return f;
+        }
+    }
+
+    void test_seminar_auto()
+    {
+        auto result = tueWas<>(false, 123, 123);
+    }
+
+
+
+
+
 
     static auto foo(bool flag, float f, double d) -> double
     {
@@ -137,6 +199,46 @@ namespace Auto_Examples {
     }
 
     // ---------------------------------------------------------------------
+
+    class Person
+    {
+    private:
+        std::string m_name;  // Okay: Ein Objekt will eine KOPIE von Daten haben
+
+    public:
+        Person(const std::string& name) 
+            : m_name(name) 
+        {
+            // name[0] = std::tolower(name[0]);  // Original wird verändert 
+        }
+
+        std::string getName2() { return m_name; }  // Neeeeeeeeeeeee
+
+        const std::string& getName() { return m_name; }  // Erheblich besser !!!
+    };
+
+    void test_person()
+    {
+        std::string hans = "Dies ist ein sehr langer Vorname";
+
+        Person p(hans);
+
+        const std::string& n = p.getName();
+
+        std::string n2 = p.getName();  // Stolperfalle: Es wird dennoch eine Kopie angelegt
+    
+        // wir wechseln zu auto
+
+        auto n3 = p.getName();   // Typ von n3:  std::string // KOPIE !!!!
+
+        const auto& n4 = p.getName();   // Typ von n4:  std::string& // KOPIE !!!!
+   
+    }
+
+
+
+
+    // ================================================================
 
     const std::string message{ "This is an important message :)" };
 
@@ -242,6 +344,10 @@ namespace Auto_Examples {
 void main_auto()
 {
     using namespace Auto_Examples;
+   // test_seminar_auto();
+
+    test_person();
+
     test_01();
     test_02();
     test_03();

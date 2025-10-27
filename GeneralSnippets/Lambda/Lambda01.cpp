@@ -6,20 +6,27 @@ module modern_cpp:lambda;
 
 namespace Lambdas {
 
-    static bool compare (int n1, int n2) {
+    // freie Funktion
+    static bool compare (int n1, int n2) { 
+
+        std::cout << "vgl. " << n1 << " mit " << n2 << std::endl;
+
         return n1 < n2;
     }
 
     class Comparer
     {
     private:
-        bool m_flag;
+        bool m_flag;   // um aufsteigend oder absteigend sortieren zu können
 
     public:
         Comparer() : m_flag{ true } {}
         Comparer(bool flag) : m_flag{ flag } {}
 
         bool operator() (int n1, int n2) const {
+
+            std::cout << "operator(): vgl. " << n1 << " mit " << n2 << std::endl;
+
             return (m_flag) ? n1 < n2 : n1 > n2;
         }
     };
@@ -47,9 +54,9 @@ namespace Lambdas {
         std::cout << std::endl;
 
         std::sort(
-            vec.begin(),
-            vec.end(),
-            compare
+            vec.begin(),  // Position Anfang
+            vec.end(),    // Position Ende
+            compare     // freie Funktion
         );
 
         for (int n : vec) {
@@ -68,10 +75,12 @@ namespace Lambdas {
         }
         std::cout << std::endl;
 
+        Comparer myComparer;
+
         std::sort(
             vec.begin(),
             vec.end(),
-            Comparer{}  // Comparer{ false }
+            myComparer 
         );
 
         for (int n : vec) {
@@ -94,6 +103,9 @@ namespace Lambdas {
             LocalComparer(bool flag) : m_flag{ flag } {}
 
             bool operator() (int n1, int n2) const {
+
+                std::cout << "LocalComparer: operator(): vgl. " << n1 << " mit " << n2 << std::endl;
+
                 return (m_flag) ? n1 < n2 : n1 > n2;
             }
         };
@@ -105,10 +117,43 @@ namespace Lambdas {
         }
         std::cout << std::endl;
 
+        LocalComparer localCmp (false);
+
+        //std::sort(
+        //    vec.begin(),
+        //    vec.end(),
+        //    localCmp             // ist ein Lambda :)
+        //);
+
+        bool flag = true;   // Lokale Variable
+
+        // man kann einem anonymen Lambda-Funktion/Lambda-Objekt
+        // einen Namen geben
+
+        auto myLambda = [&](int n1, int n2) -> bool {
+
+            std::cout << "Lambda: vgl. " << n1 << " mit " << n2 << std::endl;
+            return (flag) ? n1 < n2 : n1 > n2;
+            //return n1 < n2;
+        };
+
+        // Ziel eines Lambdas: Kompaktere Schreibweise
+        // In Lamdbas kann auf lokale Variablen "der Umgebung" zugegriffen werden !!!
+        // In JavaScript nennt man dies den "Closure" einer lokalen Funktion
+        
         std::sort(
             vec.begin(),
             vec.end(),
-            LocalComparer{}  // LocalComparer{ false }
+            // Mit Lambdas ist inlining möglich 
+            [&] (int n1, int n2) {
+        
+                // 10 oder Mehrzeiler mutieren ......
+                // ist das ein kleiner Lambda
+                // Lesbarkeit !!!
+                std::cout << "Lambda: vgl. " << n1 << " mit " << n2 << std::endl;
+                return (flag) ? n1 < n2 : n1 > n2;
+                //return n1 < n2;
+            }        
         );
 
         for (int n : vec) {
@@ -166,32 +211,29 @@ namespace Lambdas {
 
     static void test_07() {
 
-        // defining new variables in the lambda capture:
-        // we can declare a new variable that is only visible
-        // in the scope of the lambda: We do so by defining a variable
-        // in the lambda-capture without specifying its type:
+        //  auto variable = 0;
 
-        // lambda with variable definition
-        auto lambda = [variable = 10] () { return variable; };
-        std::cout << lambda() << std::endl;
+        // lambda with instance variable definition
+        auto lambda = [variable = 0] ()  mutable -> int {
+        
+           // int variable = 0;
 
-        // Captures default to 'const value':
-        // The mutable keyword removes the 'const' qualification from all captured variables
-        auto counter = [count = 50] () mutable { 
-            ++count; 
-            return count;
+            variable++;
+            
+            return variable; 
         };
 
-        for (size_t i{}; i < 5; ++i) {
-            std::cout << counter() << " ";
-        }
-        std::cout << std::endl;
+        //  variable = 123;
+
+        std::cout << lambda() << std::endl;
+        std::cout << lambda() << std::endl;
+        std::cout << lambda() << std::endl;
     }
 
     static void test_08() {
 
-        int n = 1;
-        int m = 2;
+        int n = 1;  // Closure
+        int m = 2;  // lokale Variablen
 
         auto l1 = [=] {
             std::cout << "Copy:      " << n << " " << m << std::endl;
@@ -212,7 +254,7 @@ namespace Lambdas {
         n = 3;
         m = 4;
 
-        l1();
+        l1();  // operator()
         l2();
         l3();
         l4();
@@ -232,22 +274,24 @@ namespace Lambdas {
 
     static auto test_09_helper_b() {
 
-        int n = 1;
+        int n = 1;    // Closure ==> Heap:  Verkettete Liste von Blöcken von Variablen
         int m = 2;
 
         auto lambda = [&] {
             std::cout << "Reference: " << n << " " << m << std::endl;
         };
 
-        return lambda;  // I would't do this never ever :-)
+        return lambda;                                                                             // I would't do this never ever :-)
     }
 
     static void test_09() {
 
         auto outerLambda1 = test_09_helper_a();
+
         auto outerLambda2 = test_09_helper_b();
 
         outerLambda1();
+
         outerLambda2();
     }
 
@@ -357,20 +401,20 @@ namespace Lambdas {
 void main_lambdas()
 {
     using namespace Lambdas;
-    test_00();
-    test_01();
-    test_02();
-    test_03();
-    test_04();
-    test_05();
-    test_06();
+    //test_00();
+    //test_01();
+    //test_02();
+    //test_03();
+    //test_04();
+    //test_05();
+    //test_06();
     test_07();
-    test_08();
-    test_09();
-    test_10();
-    test_11();
-    test_12();
-    test_13();
+    //test_08();
+    //test_09();
+    //test_10();
+    //test_11();
+    //test_12();
+    //test_13();
 }
 
 // =====================================================================================

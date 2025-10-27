@@ -200,6 +200,7 @@ STL:
 == Container
 == Iterator (Position)
 == Algorithmus // Kleine Helfer-Methoden für Container
+== Aufrufbare Objekte
 
 Nebenfrage:
 
@@ -247,4 +248,132 @@ SEHR unterschiedlich sein !!!
 
 // ==========================================
 
-ToDo:  Aufrufbare Objekte
+Aufrufbare Objekte:
+
+Eine Klasse, die den Operator operator() implementiert.
+
+Anderer Name: Callable, Funktor 
+
+// ==========================================
+
+Whyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+C++:   Bjarne Stroustrup  // C with Classes
+
+       Alexander Stepanov: generische Programmierung
+
+       Idee: C++: Bibliothek (STL)
+
+  ==> Idiom: C++ ist eine objekt-orientierte Sprache
+  ==> Idiom: C++ ist eine generische Sprache (Templates)
+
+generische Programmierung:
+
+template <typename T>  // T gleich int or long or long long
+bool evaluateValue (T value)
+{
+   
+}
+
+==> flexibler zu entwickeln // unabhängiger 
+
+// ==================================================
+
+class Person
+{
+    public:
+}
+
+
+... 6A0
+
+... 390   .. im Person Objekt
+
+... 4E0
+
+====================================
+
+... 2B0    // hans
+
+... 0F0    // im Person Objekt
+
+... 0F0    // selbe Adresse in n
+
+
+====================================
+
+C++ ist eine der schwierigsten Programmiersprachen
+--------------------------------------------------
+
+Lambdas
+-------
+
+==> Gebrauchsanweisung: No
+
+==> Blick hinter den Kulisse: Yes
+
+Wie: Tool:  Cpp Insights
+
+Kein Online-Compiler, sondern ein Umsetzer:
+
+Modern C++ ===> Classic C++
+
+
+std::sort
+
+Kriterium des Vergleichs:
+
+a) freie Funktion
+
+b) Aufrufbares Objekt
+
+   OO
+
+c) Lambda - Syntax
+
+==============================================
+
+Hinweis:
+
+Salopp formuliert:
+
+   Lambda - Funktion
+
+Bitte, wenn es genau sein muss:
+
+Ein Lambda ist ein OBJEKT !!!!!!!!!!! 
+Ein Lambda ist eine Instanz einer Klasse, die den Operator operator() implementiert !!!!!!!!!!! 
+
+==============================================
+
+Lambdas und lokale Variablen der umgebenden Funktion.
+
+==============================================
+
+Ein Lambda ist ein Objekt.
+
+Was haben Objekte? ==> Methoden und Instanzvariablen
+
+
+
+Touch der funktionalen Programmierung:
+
+==> Funktionen an Funktionen übergeben werden.
+
+=====================================================
+
+C++ versucht am Ball zu bleiben ...
+
+Sie läuft hinter den anderen Sprachen her ...
+
+"anderen Sprachen":  for_each
+
+// JavaScript
+for_each ( var elem   : container  ) {
+
+}
+
+Okay , warum nicht ...
+
+Designer: Neue Schlüsselwörter for_each : No.
+
