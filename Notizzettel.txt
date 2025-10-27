@@ -1,0 +1,250 @@
+====================================================
+
+Seminar "Modern C++"
+--------------------
+
+Guten Morgen
+
+Peter Loos
+
+30+ Jahre: SW-Entwicklung // Training
+
+Fortran, Pascal, C/C++, Java, C#, JavaScript, Mobile Programming
+
+Back-to-Roots: C++
+
+====================================================
+
+ToDo-Liste:
+
+>> STL Container
+
+====================================================
+
+
+12.30 - 13.30
+
+Von 9 bis bis 17 Uhr
+
+Pausen vor und nachmittags
+
+Übungen: Schaun mer Mal ...
+
+// Dienstag: Vormittagspause: 10.30 - 11 Uhr 
+
+====================================================
+
+2 Tools:
+
+a) Visual Studio
+
+b) Github
+
+====================================================
+
+Roter Faden ==> Agenda
+
+Vorstellungsrunde:
+
+== Was sind meine Erwartungen?
+== Überblick // mach mal Alles?
+== Was MUSS drin sein?
+== Vemisse ich etwas in der Agenda?
+== Feedback
+== Welche Sprachen bringe ich mit ?
+== Multithreading: Ja oder Nein.
+
+== Classic C++ ===> Modern C++
+== Überblick
+
+====================================================
+
+Mythos:  
+
+Visual Studio: For Free
+
+Visual Studio Community 2022
+
+====================================================
+
+== RValues
+== Move-Semantik
+
+Begrifflichkeiten:
+
+LValue
+RValue
+
+a = b;   // Links: a:  Adresse von a // LValue
+         // Rechts: b: Adresse von b, um an den WERT zu kommen. // RValue
+
+a = 123 * 456;  // Rechts: WERT (konstant) // RValue
+
+Vor C++ 11 haben wir mit temp. Objekten ein PROBLEM:
+
+Diese werden im Regelfall KOPIERT.
+
+Abhilfe:
+
+Referenz:
+
+a) Klassische Referenz: Objekte mit NAMEN // LValue-Referenz
+
+int n = 123;
+
+int& ri = n;
+
+b) Ab C++ 11: Weiteren Referenztyp: RValue-Referenz
+
+int&& ri = 123;
+
+
+Whyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy  => Move-Semantik
+
+Was hat es mit dem "Namen" auf sich ??????????????
+
+=============================================================
+
+Whyyyyyyy ???   => Move-Semantik (C++ 11)
+
+..: ... 240   // tmp. Objekt am Stack // wird freigegeben
+..: ... 390   // Ist im Vektor
+
+..: ... 710   // tmp. Objekt am Stack
+
+i) Mit Hilfe von RValues kann man tmp. Objekte DIREKT ansprechen.
+ii) Mit Verschieben kann man PERFORMANT Inhalte von Objekten
+    von a) nach b) bewegen.
+
+Offene Punkte:
+
+a) Kopier-Konstruktor ===> Damit ich eine echte Kopie bekomme.
+
+https://github.com/pelocpp/cpp_introduction/blob/master/Cpp_Introduction/Markdown/RuleOfThree.md
+
+b) Was ist das ECHTE Problem, wenn der Kopier-Konstruktor NICHT
+   vorhanden ist?
+
+   ... 1d0
+
+   Double-Delete ==> Echtem Kopier-Konstruktor !!!
+
+======================================================
+
+STL // Container ...
+
+C++:  Standard Bibliothek
+
+Templates 
+
+C++:  Standard Template Bibliothek
+
+// C Standard Array: FIXED Size  : int numbers [100];
+
+Variable Sized: std::vector
+
+Neue interne Länge = alte interne Länge * 1.5;
+
+Verwende resize (!!!!!), um Umkopieren zu minimieren !!!
+
+========================================================
+
+STL:  Design Prinzipien
+-----------------------
+
+Homogenes // ähnliches Aussehen, ähnlicher Zugriff , im Arbeiten
+mit allen unterschiedlichen STL-Containern.
+
+STL-Container:
+
+Vektor: Flexibel langes Array
+
+Baumstrukturen:  std::map
+
+Hash-Tabellen:   std::ordered_map     // Python: Dictionary
+
+Listen: Verkettete Liste  // std::list 
+
+Beispiel: Baumstruktor
+
+std::tree myTree;
+
+myTree[3] = 123;  // operator[] hat KEINEN Sinn !!!
+
+Beispiel:   Verkettete Liste 
+
+
+
+list[2] = 123;   // Gewalt implementieren können  // Was ist,
+                 // wenn Index zu groß
+
+Das tut man nicht: Why ???
+
+STL implementiert nur PERFORMANTE Algorithmen
+
+======================================
+
+Index-Operator: Eignet sich nur sequentielle Container:
+
+std::vector
+std::array
+
+Anderes Konzept für NICHT-sequentielle Container
+
+==> Iterator:  
+
+Was ist ein Iterator: Beschreibt eine POSITION in einem Container.
+
+STL:
+
+== Container
+== Iterator (Position)
+== Algorithmus // Kleine Helfer-Methoden für Container
+
+Nebenfrage:
+
+static void output(int elem)          // Wert kopiert
+{
+    std::println("{}", elem);
+}
+
+oder
+
+static void output(const int& elem)   // Übergabe einer Referenz
+{
+    std::println("{}", elem);
+}
+
+Frage: Egal oder nicht egal.
+
+Zugriff via Kopie:
+
+    int m = elem;
+00007FF77A0830A0  mov         eax,dword ptr [elem]     // direkter Variablenzugriff
+00007FF77A0830A6  mov         dword ptr [m],eax  
+
+Zugriff via Referenz (Pointer): 
+
+    int m = elem;
+00007FF68E3330A1  mov         rax,qword ptr [elem]     // INDIREKTER Variablenzugriff
+00007FF68E3330A8  mov         eax,dword ptr [rax]  
+00007FF68E3330AA  mov         dword ptr [m],eax  
+
+Tut der Compiler das nicht optimieren ???
+
+Ja, ist möglich.
+
+Wie werden Parameter an Funktionen übergeben: 
+
+a) Am Stack.
+
+b) Via Register.
+
+Beobachtung:
+
+Debug-Code und Release-Mode (optimierter Code) können
+SEHR unterschiedlich sein !!!
+
+// ==========================================
+
+ToDo:  Aufrufbare Objekte
