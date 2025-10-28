@@ -502,7 +502,133 @@ Option:  Pause .......
 
 Option: Stürtzt in die Übung .....
 
+===============================================
 
-=> Um / ab 11 Uhr.
+Intelligente Zeiger (Smart Pointer)
+
+int* ip = new int[10];
+
+...
+
+// delete[] ip;
+
+Was ist das Problem von new / delete ????
+
+Fehlende deletes
+
+Suche nach fehlende deletes:  Todesmarsch  // Death March (Ed Yourdon)
+
+Neuen Art und Weise des Umgangs mit new / delete:  Versteckt.
+
+==> Hüllenklassen // Wrapper ???????
+
+Whyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+Klassen // Objekten // OO
+
+-- Konstruktoren
+-- Destruktoren
+
+Wann wird ein Destruktor aufgerufen ??? 
+
+== Am Ende eines Blocks // Scope (Gültigkeitsbereich)
+== Der Aufruf ist DETERMINISTISCH; der kann nicht verloren gehen
+== es gibt keine fehlenden Destruktoren
+
+Idee / Trick:
+
+Man übergibt einen Zeiger (int*) in die Obhut eines Objekts:
+==> Im Destruktor ist das delete platziert / vorhanden.
+
+Frage: Wie kann man so ein Objekt im Programm weiterreichen 
+       Wie kann man so eine Objekt aus einem Bereich / Block weiterschleusen.
 
 
+Wann stellt der Compiler das fest ???
+
+Programmstruktur:  Block 
+
+a) Funktion
+
+void func()
+{
+    Person p;
+    ...
+}   <======== Destruktor
+
+
+b) Funktion
+
+void func()
+{
+    ...
+
+    while ()
+    {
+        Person p;
+        ....
+    }   <======== Destruktor p
+
+    // hier ist p nicht mehr vorhanden
+
+}
+
+
+c) Funktion
+
+void func()
+{
+    ...
+
+    // innerer, geschachtelter Block
+    {
+        Person p;
+        ....
+    }   <======== Destruktor p
+
+    // hier ist p nicht mehr vorhanden
+
+}
+
+A) Historisch: Klasse auto_ptr. // deprecated
+
+B) std::unique_ptr
+   std::shared_ptr / std::weak_ptr
+
+Unterschiedliche Strategien:
+
+i) std::unique_ptr:
+
+   Zu einem Zeitpunkt im Programmablauf kann ein std::unique_ptr-Objekt
+   nur EINEN Besitzer haben.
+
+   ==> Ein std::unique_ptr-Objekt ist NICHT kopierbar.
+
+   Uniqueness: ===> Verschieben (von A nach B) geht
+
+   Frage: Wie kann man so ein Objekt im Programm weiterreichen 
+   Wie kann man so eine Objekt aus einem Bereich / Block weiterschleusen.
+
+
+ii) std::shared_ptr
+
+   Zu einem Zeitpunkt im Programmablauf kann ein std::shared_ptr-Objekt
+   mehrere EINEN Besitzer haben.
+
+   Zu klären: Wann wird delete aufgerufen.
+
+   Rolle des Destruktors:  Der Referenzzähler ist zu aktualisieren.
+
+   3 => 2 => 1 => 0: Jetzt wird delete aufgerufen.
+
+Frage:
+
+ std::make_shared   : ist performanter .............
+ std::make_unique
+
+ verwenden oder nicht: Doch, verwenden ...
+
+---------------------------
+
+13:40
+-----

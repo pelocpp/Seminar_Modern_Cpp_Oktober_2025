@@ -13,18 +13,28 @@ namespace UniquePointerGeneral {
 
     static std::unique_ptr<int> loadUniquePointer()
     {
+        std::unique_ptr<int> empty;
+
         std::unique_ptr<int> ptr{ std::make_unique<int>(100) };
+        
         return ptr;
+
+        // return std::move(ptr); // Verschiebe-Semantik // NIEMALS !!!!!! 
+
+        // Für das Rückgeben von Objekten gibt es viele 
+        // Strategieen der einzelnen Compiler-Hersteller !!!
+        // RVO Return Value Optimization // NRVO - Named Return Value Optimization
+        // Copy - Move Elision
     }
 
-    static void storeUniquePointer(std::unique_ptr<int>& ptr)
+    static void storeUniquePointer( /*const*/ std::unique_ptr<int>& ptr)
     {
         std::println("*ptr:    {}", *ptr);
         (*ptr)++;
         std::println("*ptr:    {}", *ptr);
 
-        // take ownership right now:
-        // std::unique_ptr<int> ptr2{ std::move(ptr) };
+        // take ownership right now: Hmmmm .. fraglich ...operiere auf einem Alias
+        std::unique_ptr<int> ptr2{ std::move(ptr) };
     }
 
     static void storeUniquePointerSafe(const std::unique_ptr<int>& ptr)
@@ -50,19 +60,32 @@ namespace UniquePointerGeneral {
 
     static void test_01()
     {
+        //std::unique_ptr<int> ppp1;
+        //std::unique_ptr<int> ppp2;
+        //ppp1 = ppp2;
+
+
+
+
         // create a unique_ptr to an int with value 123
-        std::unique_ptr<int> ptr1{ new int{ 123 } };
+
+        int* tmp = new int{ 123 };
+
+        // std::unique_ptr<int> ptr1{ new int{ 123 } };
+        std::unique_ptr<int> ptr1{ tmp };
+
+        
         // or
         // std::unique_ptr<int> ptr1{ std::make_unique<int>(123) };
         // or
         // auto ptr1{ std::make_unique<int>(123) };
 
         // access value behind smart pointer
-        int n{ *ptr1 };
+        int n = *ptr1;
         std::println("*ptr1:   {}", n);
 
         // access value using raw pointer
-        int* ip{ ptr1.get() };
+        int* ip = ptr1.get();
         (*ip)++;
         int m{ *ip };
         std::println("*ip:     {}", m);
@@ -93,14 +116,15 @@ namespace UniquePointerGeneral {
     static void test_02()
     {
         // retrieving a unique pointer from a function
-        std::unique_ptr<int> ptr{ loadUniquePointer() };
+        std::unique_ptr<int> ptr = loadUniquePointer();
+        
         std::println("*ptr:    {}", *ptr);
 
         // provide a function with a unique pointer: who owns the pointer now?
         storeUniquePointer(ptr);
 
         // C++ Core Guidelines
-        storeUniquePointerAlternate(ptr.get());
+       // storeUniquePointerAlternate(ptr.get());
 
         // does this work?
         std::println("*ptr:    {}", *ptr);

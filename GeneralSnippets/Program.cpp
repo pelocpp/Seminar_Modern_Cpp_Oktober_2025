@@ -61,7 +61,7 @@ int main()
         //main_functional_programming_alternate();
         //main_generate();
         //main_generic_functions();
-        main_initializer_list();
+     //  main_initializer_list();
         //main_input_output_streams();  
         //main_invoke();
         //main_lambdas();
@@ -86,7 +86,7 @@ int main()
         //main_regular_expressions();
         //main_rvalue_lvalue();
         //main_sfinae();
-        //main_shared_ptr();
+       // main_shared_ptr();
         //main_source_location();
         //main_sso();
         //main_static_assert();
@@ -104,7 +104,7 @@ int main()
         //main_two_phase_name_lookup();
         //main_type_erasure();
         //main_type_traits();
-        //main_unique_ptr();
+        main_unique_ptr();
         //main_variadic_templates_introduction();
         //main_variadic_templates_working_on_every_argument();
         //main_variadic_templates_sum_of_sums();
@@ -114,7 +114,7 @@ int main()
         //main_virtual_override_final();
         //main_weak_pointer();
 
-        //main_exercises();
+      //  main_exercises();
     }
     catch (const std::exception& ex) {
         std::println("Exception: {}", ex.what());
