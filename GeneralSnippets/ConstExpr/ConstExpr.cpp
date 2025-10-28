@@ -6,6 +6,52 @@ module modern_cpp:const_expr;
 
 namespace ConstExprComplex {
 
+    // some more examples
+
+    static void test()
+    {
+        [] {};
+
+        []() {};
+
+        auto l1 = []() {};
+
+        l1();
+
+        auto l2 = []() { return 123; };
+
+        auto result = l2();
+
+        constexpr auto l3 = []() { return 123; };
+
+        constexpr auto l4 = []() { return 123; } () ;
+
+        // IIFE - Immediately Invoked Functional Expressions
+        constexpr auto summeLambda = [](int n1, int n2) { return n1 + n2; };
+
+        constexpr auto summe = [](int n1, int n2) { return n1 + n2; } (11, 22);
+
+        constexpr auto summe2 = summeLambda(5, 6);
+        constexpr auto summe3 = summeLambda(7, 8);
+
+        // C // Makros und #defines // max, min, ....
+        // Kann man mit constexpr lambdas nun OO und Typ Sicher gestalten
+
+        constexpr auto summe99 = [](int n1, int n2) { 
+            return n1 + n2;
+        }
+        (11, 22);
+    }
+
+
+
+
+
+
+
+
+    // std::complex
+
     class Complex
     {
     private:
@@ -15,7 +61,11 @@ namespace ConstExprComplex {
     public:
         // c'tors
         constexpr Complex() : m_real{ }, m_imag{ } {}
-        constexpr Complex(float real, float imag) : m_real{ real }, m_imag{ imag } {}
+
+        constexpr Complex(float real, float imag) 
+            : m_real{ real }, m_imag{ imag }
+        {
+        }
 
         // getter
         constexpr float real() const { return m_real; }
@@ -33,11 +83,15 @@ namespace ConstExprComplex {
     static void testComplex()
     {
         constexpr Complex c0{ };
+
         constexpr Complex c1{ 1.0, 2.0 };
+
         constexpr Complex c2{ 3.0, 3.0 };
 
         constexpr float r1 = c1.real();
+
         constexpr Complex c3 = c1 + c2;
+
         constexpr float r2 = c3.real();
 
         // verify 'constness' with the help of disassembly and

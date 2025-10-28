@@ -17,6 +17,8 @@ namespace StandardAttributes {
     {
         int result = discard_test();
 
+        discard_test();
+
         // another call to discard_test:
         // 'warning: discarding return value of function with 'nodiscard' attribute'
 #if defined (DEMONSTRATE_WARNINGS_AND_ERRORS)
@@ -49,7 +51,7 @@ namespace StandardAttributes {
     struct [[ deprecated ]] Struct {};
 
     // for Functions
-    [[ deprecated("Reason for deprecation") ]] void f() {}
+    [[ deprecated("Grund for deprecation") ]] void function() {}
 
     // for namespaces
     namespace [[ deprecated ]] any_namespace {}
@@ -60,7 +62,7 @@ namespace StandardAttributes {
     [[ deprecated ]] static void test_deprecated()
     {
         Struct s{};
-        f();
+        function();
         x = 123;
     }
 #endif

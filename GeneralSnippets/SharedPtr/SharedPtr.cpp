@@ -27,7 +27,7 @@ namespace SharedPointer {
     }
 
     // note: play with 'call-by-value' or 'call-by-reference'
-    static void storeSharedPointer(std::shared_ptr<int> ptr)
+    static void storeSharedPointer(const std::shared_ptr<int>& ptr)
     {
         std::println("Inner scope: {}", ptr.use_count());
     }
@@ -88,9 +88,11 @@ namespace SharedPointer {
     static void test_02()
     {
         std::shared_ptr<int> ptr{ loadSharedPointer() };
+
         std::println("Outer scope: {}", ptr.use_count());
 
         storeSharedPointer(ptr);
+        
         std::println("Outer scope: {}", ptr.use_count());
         // no explicit delete on object ptr: shared ptr goes out of scope!
     }

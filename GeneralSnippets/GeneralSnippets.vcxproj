@@ -302,6 +302,7 @@
     <ClCompile Include="RValueLValue\Module_RValueLValue.ixx" />
     <ClCompile Include="RValueLValue\RValueLValue.cpp" />
     <ClCompile Include="Seminar_STL_Container.cpp" />
+    <ClCompile Include="Seminar_STL_Container_02.cpp" />
     <ClCompile Include="SFINAE_EnableIf\Module_Sfinae.ixx" />
     <ClCompile Include="SFINAE_EnableIf\Sfinae.cpp" />
     <ClCompile Include="SharedPtr\Module_SharedPtr.ixx" />

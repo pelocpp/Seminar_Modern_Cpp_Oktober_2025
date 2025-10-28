@@ -11,7 +11,8 @@ import std;
 
 #pragma message(MessageText)
 
-void main_seminar_stl();
+extern void main_seminar_stl();
+extern void main_seminar_stl_02();
 
 int main()
 {
@@ -24,6 +25,7 @@ int main()
     try
     {
        // main_seminar_stl();
+      //  main_seminar_stl_02();
 
         //main_accumulate();
         //main_algorithms();
@@ -32,7 +34,7 @@ int main()
         //main_argument_dependent_name_lookup();
         //main_array();
         //main_array_decay();
-        //main_attributes();
+        main_attributes();
        // main_auto();
         //main_back_inserter();
         //main_bind();
@@ -42,7 +44,7 @@ int main()
         //main_concepts_requires_classes();
         //main_concepts_requires_functions();
         //main_const_variants();
-        //main_constexpr();
+       // main_constexpr();
         //main_constexpr_crc();
         //main_constructor_invocations();
         //main_copy_move_elision();
@@ -104,7 +106,7 @@ int main()
         //main_two_phase_name_lookup();
         //main_type_erasure();
         //main_type_traits();
-        main_unique_ptr();
+       // main_unique_ptr();
         //main_variadic_templates_introduction();
         //main_variadic_templates_working_on_every_argument();
         //main_variadic_templates_sum_of_sums();
@@ -112,7 +114,7 @@ int main()
         //main_variant();
         //main_virtual_base_class_destructor();
         //main_virtual_override_final();
-        //main_weak_pointer();
+     //   main_weak_pointer();
 
       //  main_exercises();
     }

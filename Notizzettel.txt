@@ -7,6 +7,9 @@ Guten Morgen
 
 Peter Loos
 
+peter.loos@gmx.de
+-----------------
+
 30+ Jahre: SW-Entwicklung // Training
 
 Fortran, Pascal, C/C++, Java, C#, JavaScript, Mobile Programming
@@ -14,6 +17,19 @@ Fortran, Pascal, C/C++, Java, C#, JavaScript, Mobile Programming
 Back-to-Roots: C++
 
 ====================================================
+
+Unterlagen:
+
+https://github.com/pelocpp
+
+https://github.com/pelocpp/cpp_modern
+
+Zusätzlich:
+
+Datei Seminar_STL_Container.cpp
+Datei Seminar_STL_Container_02.cpp
+
+===================================================
 
 ToDo-Liste:
 
@@ -630,5 +646,241 @@ Frage:
 
 ---------------------------
 
-13:40
------
+std::shared_ptr:
+
+Beobachtung:  std::shared_ptr funktioniert nicht immer :)
+
+????????????????????????  Whyyyyyyyyyyyyyyyyyyyyy
+
+std::weak_ptr
+
+a) Technik der std::weak_ptr Klasse
+b) Problem ???
+
+Nachgestellte Fragen:
+
+i)  Zyklen habe ich in meiner SW nicht.
+ii) Was ist das tatsächliche Problem eines Zyklusses ???
+
+    Antwort: Bilder malen
+
+
+Frage:
+
+Beispiel: Observer-Pattern 
+
+Beobachter - Pattern:
+
+a) Zentrales Objekt, das seinen Zustand ändert (Wetterdaten, Aktienkurse)
+
+   Nomenklatur: Event Source, Subject, Observable
+
+b) Beobachter: Event Client // Observer
+
+c) Damit ein Beobachter Nachrichten von der Event Source erhalten kann,
+   muss er sich dort anmelden.
+
+   Observer ==> Kennt Event Source
+
+d) Event Source: Ruft eine Methode bei den Event Clients (Observer) auf,
+   wenn sich am Zustand etwas ändert.
+
+   Event Source ===> Kennt Observer
+
+Bilder:
+
+https://github.com/pelocpp/cpp_design_patterns/blob/master/Patterns/Observer/Resources/Readme.md
+
+std::shared_ptr:
+std::weak_ptr:
+
+i) Event Source ==> std::shared_ptr
+
+ii) Beobachter: ==> std::shared_ptr
+
+iii) Diese Liste aller Beobachter in der Event Source (attach/ detach):
+
+    std::vector<std::shared_ptr>  ODER std::vector<std::weak_ptr> 
+
+    ==> Kann oder sollte eine Event Source zum BESITZER (OWNER)
+        eines Beobachters werden ????????? NEIN !!!
+
+        std::vector<std::weak_ptr> 
+
+        Problem // Beobachtung:
+
+        Es wird diese Liste mit den std::weak_ptr traversiert.
+
+        Es kommt zu einem lock Aufruf
+        Es kommt zu einem EMPTY std::shared_ptr:  So What
+
+        Ignoriert dieses Objekt
+
+Ursprung: Ein std::shared_ptr-Objekt ist ein BESITZER !!!
+
+Ein std::weak_ptr möchte auf einen Besitzer zugehen // dort anklopfen:
+Legitim // Erlaubt // Abgewiesen werden.
+
+== std::shared_ptr (BESITZER) ==> Referenzzähler geht hoch
+== UND std::weak_ptr
+
+================================================
+
+Ist das mit dem Zyklus ein reines C++ Problem ???
+Nein.
+
+a) C#  // Delegates / Events: ++, --
+
+   wenn ein Event Handler mit -- nicht abgemeldet wird,
+   verbleibt dieser im Speicher.
+
+b) Java:
+
+   WeakReference<T>   ähnlich zu std::weak_ptr in C++
+
+Fazit:
+
+a) Legacy-SW:  "Klassische" Zeiger  
+
+       ==> Smart Pointer umstellen ??? Nicht zwingend
+
+       Never change a running System.
+
+b) Ein neues SW-Modul wird entwickelt:
+
+       ==> Smart Pointer einsetzen ??? Jepp, würde ich machen
+
+       7-14 Tage, um mit Smart Pointer
+
+       Wie lange will ich diese Objekte im Speicher halten
+       (Besitzer, Owner, delete)
+
+    Klassische Problem: double delete // Können nicht auftreten .
+
+Go for Smart Pointer 
+
+======================================================
+
+Embedded: 
+
+Objekte leben bis zum ausschalten.
+
+a) Objekte werden nach dem Hochlauf / im Hochlauf erstellt.
+
+b) Leben die gesamte Laufzeit des Programms (bis zum Strom-Aus).
+
+   Offensichtlich reicht der Speicher aus.
+
+c) Dann müssen derartige Objekt nicht ZWINGEND freigegeben werden.
+
+d) Wozu: Ein dynmisches Objekt hat einen Vorteil:
+   Man kann seinen Speicher freigeben wenn es nicht mehr benötigt wird.
+
+Es geht einzig und alleine um die Frage: Reicht der Speicher ???
+
+Zweite Frage:
+
+Weiß ich die exakte Anzahl der Objekte, die ich zur Laufzeit benötige ???
+Globales Datensegment.
+
+Smart Pointer // new: Vorteil:
+
+Ich kann zusätzlich ZUR LAUFZEIT Objekte anlegen.
+Deren Anzahl ist dann frei wählbar // berechenbar.
+
+new: 2. Vorteil: Mit delete kann man das new rückgängig machen.
+
+YAGNI:  You ain't gonna need it -  !!!
+
+KISS:   Keep it simple !!!
+
+Objektverwaltung - ist nicht ganz einfach.
+
+Reicht der Speicher ???
+
+Bare-Metal Programming:
+
+  Ohne Betriebssystem.
+
+  ===> HW // Firmware // IO // Interrupts
+
+Desktop-Anwendung:
+
+=================================================
+
+constexpr
+
+Embedded: interessant sein.
+
+constexpr: Vermutung: Ist ähnlich zu const - FALSCH !!!
+
+        constexpr Complex c3 = c1 + c2;
+00007FF72408C180  movss       xmm0,dword ptr [__real@40800000 (07FF7242B9FE0h)]  
+00007FF72408C188  movss       dword ptr [c3],xmm0  
+00007FF72408C190  movss       xmm0,dword ptr [__real@40a00000 (07FF7242B9FE4h)]  
+00007FF72408C198  movss       dword ptr [rbp+8Ch],xmm0  
+
+
+        /*constexpr*/ Complex c3 = c1 + c2;
+00007FF6BDE3BF0F  lea         r8,[c2]  
+00007FF6BDE3BF13  lea         rdx,[c3]  
+00007FF6BDE3BF1A  lea         rcx,[c1]  
+00007FF6BDE3BF1E  call        ConstExprComplex::Complex::operator+ (07FF6BDD9EEFAh)  
+
+============================================================
+
+STL:
+
+Bibliothek ==> Einstieg
+
+
+Es werden die folgenden STL-Algorithmen
+an Hand von einfachen Beispielen vorgestellt:
+
+std::fill
+std::for_each
+std::generate
+std::iota
+std::copy
+std::transform
+std::accumulate
+std::sort
+std::find
+std::is_sorted
+std::binary_search
+std::none_of
+std::all_of
+std::any_of
+std::count
+std::equal_range
+std::distance
+std::min
+std::max
+std::clamp
+std::minmax_element
+
+warning C4834:
+discarding return value of function with [[nodiscard]] attribute
+
+Python: Dictionary
+
+Hash-Tabelle:  Morgen ...
+
+=======================================================
+
+Attribute
+
+[[ deprecated ]]  
+
+Veraltet: 
+
+Zu einer neuen Funktion wechseln.
+
+Wie schaffe ich es, dass euer Kollegen/innen die alte 
+Funktion NICHT mehr verwenden.
+
+
+
+warning C4834: discarding return value of function with [[nodiscard]] attribute
+
+
