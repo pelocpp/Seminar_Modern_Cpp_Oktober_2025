@@ -19,6 +19,18 @@ ToDo-Liste:
 
 >> STL Container
 
+== Initialisierung („Brace Initialization” bzw. „Uniform Initialization”)
+
+== Smart Pointer
+
+== constexpr
+
+== STL Algorithmen
+
+== Übung
+
+== Online Compiler
+
 ====================================================
 
 
@@ -376,4 +388,121 @@ for_each ( var elem   : container  ) {
 Okay , warum nicht ...
 
 Designer: Neue Schlüsselwörter for_each : No.
+
+======================================================
+
+Initialisierung:
+
+Neustart => Änderungen an der Syntax
+
+Klasse Point
+
+== Point p(1, 2);
+
+== Point p{ 1, 2 };
+
+Soll ich umstellen?   Nein.
+
+Neuer Entwicklung:    Vielleicht doch // einheitlich.
+
+Beachte:
+
+Visual C++:
+
+Es gibt Bit-Muster für NICHT initialisierten Speicherbereich !!!
+
+Stack: CC
+
+Heap:  DD (?)
+Heap:  CD (?), wenn der Speicher freigegen worden ist     
+
+
+// ================================================================
+
+std::initializer_list
+
+C++ 11: Neuer Helfer
+
+Ablage der Daten:
+
+std::vector                ===> Daten: HEAP
+std::initializer_list      ===> Daten: STACK
+
+==> Ablage am Stack PERFORMANTER als am Heap
+
+Bemerkung:
+
+std::initializer_list ist kein vollwertiger STL-Container.
+
+Lightweight Container // Leichtgewichtiger Container
+
+3 Methoden:
+
+begin()
+end()
+size()
+
+Manko:
+
+std::vector<int> vec1( 10 );  // Size: 10, Werte: Zehn mal 0 vorbelegt
+std::vector<int> vec2{ 10 };  // Size: 1,  Werte: 10 vorbelegt
+
+Das Spiel wiederholt sich ...
+
+std::string s (10, '*');   ==> "**********"
+
+std::string s {10, '*'};   ==> "**********"
+
+=======================================================
+
+C++: Keine IDE installieren ...
+
+Schnell ausprobieren ....
+
+Online Compiler
+
+https://wandbox.org/
+
+Beispiel:
+
+#include <string>
+#include <print>
+
+static void test_frage()
+{
+    std::string s1{ 66, '*' };
+    std::string s2( 10, '*' );
+
+    std::println ("{}", s1);
+    std::println ("{}", s2);
+}
+
+int main()
+{
+    test_frage();
+}
+
+
+Übung:
+
+Aufgabe 1:
+
+Move-Semantik ==> Aufgabe 1	Verschiebe-Semantik am Beispiel einer benutzerdefinierten Klasse
+
+Lambda-Funktionen:
+
+
+Big-Five:
+
+https://github.com/pelocpp/cpp_modern/blob/master/GeneralSnippets/MoveSemantics/MoveSemantics.md
+
+==>
+
+Option:  Pause .......
+
+Option: Stürtzt in die Übung .....
+
+
+=> Um / ab 11 Uhr.
+
 

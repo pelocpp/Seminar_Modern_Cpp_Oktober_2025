@@ -4,6 +4,8 @@
 
 module modern_cpp:brace_initialization;
 
+static int g_intArray1[10]{};
+
 namespace BraceInitialization {
 
     // =================================================================================
@@ -13,7 +15,10 @@ namespace BraceInitialization {
         double dval{ 123.456 };
         int ival{ 123 };
 
-        double d1 = ival;      // Compiles
+        double d1 = ival;      // Compiles // Embedded // Performanz: No
+        double d2{ 123 };      // ERROR
+
+
         // double d2{ ival };  // Error: "conversion from 'int' to 'double' requires a narrowing conversion"
     }
 
@@ -22,7 +27,10 @@ namespace BraceInitialization {
 
     static void test_01()
     {
+        int m = 0;
         int n{};                   // n equals 0
+
+
         float f{};                 // f equals 0.0
         double d{};                // d equals 0.0
         unsigned long l{};         // l equals 0
@@ -41,7 +49,11 @@ namespace BraceInitialization {
 
     static void test_02()
     {
+        int m = 1;
         int n{ 1 };                // n equals 1
+
+
+
         float f{ 2.5f };           // f equals 2.5
         double d{ 3.5 };           // d equals 3.5
         unsigned long l{ 4l };     // l equals 4
@@ -65,14 +77,13 @@ namespace BraceInitialization {
 
     static void test_03()
     {
-        [[ maybe_unused]]
         struct Struct obj0;                           // uninitialized !!!
 
         struct Struct obj1 {};                        // obj1.m_i => 0, obj1.m_j => 0
 
         struct Struct obj2 { 1, 2 };                  // obj2.m_i => 1, obj2.m_j => 2
 
-        // designated initializer syntax
+        // designated initializer syntax // order is relevant !!!
         struct Struct obj3 { .m_i = 1, .m_j = 2 };    // obj2.m_i => 1, obj2.m_j => 2
 
         struct Struct obj4 { 3 };                     // obj3.m_i => 3, obj3.m_j => 0
@@ -110,6 +121,7 @@ namespace BraceInitialization {
     static void test_05()
     {
         Class obj{ 11, 12 };  // obj.m_a => 11, obj.m_b => 12
+        Class obj1( 11, 12 );  // obj.m_a => 11, obj.m_b => 12
     }
 
     class AnotherClass
@@ -204,7 +216,6 @@ namespace BraceInitialization {
 
     static void test_09()
     {
-        [[ maybe_unused]]
         int intArray1[10];
 
         int intArray2[10]{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -218,6 +229,8 @@ namespace BraceInitialization {
         int intArray6[10]{ 0 };
 
         int intArray7[10]{ };
+
+        // Könnte man das Feld intArray7 auch mit einer for-Schleife vorbelegen
     }
 
     // =================================================================================
