@@ -247,7 +247,93 @@ void main_seminar_stl_find_05()
 
 }
 
+void main_seminar_stl_find_06()
+{
+    // Wörterbuch: "Deutsch" => "Italienisch"
+    std::unordered_map<std::string, std::string> dictionary;
+
+    std::pair<std::string, std::string> entry1{ "Haus", "casa"};
+    std::pair<std::string, std::string> entry2{ "Tuere", "porta" };
+    std::pair<std::string, std::string> entry3{ "Mann", "uomo" };
+    std::pair<std::string, std::string> entry4{ "Frau", "donna" };
+    std::pair<std::string, std::string> entry5{ "Kind", "bambino" };
+    std::pair<std::string, std::string> entry6{ "Frau", "signora" };
+
+    std::vector<std::pair<std::string, std::string>> entries
+    {
+        entry1,
+        entry2,
+        entry3,
+        entry4,
+        entry5,
+        entry6
+    };
+
+    // ----------------------------------------------------------------
+    // Wörterbuch mit Übersetzungen füllen
+
+    std::for_each(
+        entries.begin(),
+        entries.end(),
+        [&] (const auto& entry) {
+        
+            std::pair <std::unordered_map<std::string, std::string>::iterator, bool> result
+                = dictionary.insert(entry);
+
+            bool success = result.second;
+
+            if (success) {
+                std::println("Inserting {} succeeded", entry.first);
+            }
+            else {
+                std::println("Inserting {} FAILED!", entry.first);
+            }
+        }
+    );
+
+    std::println();
+
+    // ----------------------------------------------------------------
+    // Übersetzung in einem Wörterbuch suchen 
+    // 
+    std::unordered_map<std::string, std::string>::iterator pos1 
+        = dictionary.find("Tuere");
+    // oder
+    auto pos = dictionary.find("Tuere");
+
+    if (pos != dictionary.end()) {
+
+        const auto& entry = *pos;  
+        // oder
+        const std::pair<std::string, std::string>& entry2 = *pos;
+
+        const std::string& word = entry.first;
+        const std::string& translation = entry.second; 
+
+        std::println("{:10} => {:10}", word, translation);
+    }
+
+    std::println();
+
+    // ----------------------------------------------------------------
+    // Inhalt des Wörterbuchs in der Konsole ausgeben
+
+    std::println("Contents of Dictionary:");
+
+    std::for_each(
+        dictionary.begin(),
+        dictionary.end(),
+        [](const std::pair<std::string, std::string>& entry) {
+
+            const std::string& word = entry.first;
+            const std::string& translation = entry.second;
+
+            std::println("{:10} => {:10}", word, translation);
+        }
+    );
+}
+
 void main_seminar_stl_02()
 {
-    main_seminar_stl_find_05();
+    main_seminar_stl_find_06();
 }
