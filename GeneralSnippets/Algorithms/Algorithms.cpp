@@ -26,6 +26,10 @@ namespace Algorithms {
     std::array<double, ArraySize> values;
     std::array<double, ArraySize> source;
     std::array<double, ArraySize> target;
+
+    // std::array:  für den Moment stellen wir uns ein C-Array vor:
+    // double values [10'000'000];
+
 }
 
 namespace Algorithms {
@@ -125,9 +129,9 @@ namespace Algorithms {
         {
             std::println("std::vector: using std::generate");
 
-            std::vector<double> values(VectorSize);
+            std::vector<double> values(VectorSize);  // incl. Vorbelegung + new
 
-            ScopedTimer watch{};
+            ScopedTimer watch{};                     // Uhr gestartet
 
             std::generate(
                 values.begin(),
@@ -171,10 +175,13 @@ namespace Algorithms {
         {
             std::println("std::array: using a classic for-loop");
 
+            // Stack ...... da gehen keine GROSSEN Objekte ... wie ein Array
+           // int numbers[100000000]{};
+
             ScopedTimer watch{};
 
             for (size_t i{}; i != values.size(); ++i) {
-                values[i] = 123.0;
+                values[i] = 123.0;   // operator[] geht nicht bei allen Container ...
             }
         }
 
@@ -208,6 +215,7 @@ namespace Algorithms {
 
             ScopedTimer watch{};
 
+            // Ab C++ 20: Manche STL - Algorithmen wurden parallelisiert 
             std::fill(
                 std::execution::par,
                 values.begin(),
@@ -222,6 +230,8 @@ namespace Algorithms {
 
             ScopedTimer watch{};
 
+            // std::for_each: Regelfall der Anwendung: Lesendes Traversieren
+
             std::for_each(
                 values.begin(),
                 values.end(),
@@ -235,7 +245,10 @@ namespace Algorithms {
 
             ScopedTimer watch{};
 
-            for (auto& elem : values) {
+            // for_each
+            // Syntax:     for (  auto  elem  :  container   )
+
+            for (double& elem : values) {
                 elem = 123.0;
             }
         }
@@ -787,21 +800,21 @@ namespace Algorithms {
 
 void main_algorithms()
 {
-    // initialization of std::vector or std::array with a constant value
+    //// initialization of std::vector or std::array with a constant value
     Algorithms::Initialization_Vector_Constant_Value::test_vector_constant_initialization();
-    Algorithms::Initialization_Array_Constant_Value::test_array_constant_initialization();
+    //Algorithms::Initialization_Array_Constant_Value::test_array_constant_initialization();
 
-    // initialization of std::vector or std::array with a a varying value
-    Algorithms::Initialization_Vector_Varying_Value::test_vector_varying_initialization();
-    Algorithms::Initialization_Array_Varying_Value::test_array_varying_initialization();
+    //// initialization of std::vector or std::array with a a varying value
+    //Algorithms::Initialization_Vector_Varying_Value::test_vector_varying_initialization();
+    //Algorithms::Initialization_Array_Varying_Value::test_array_varying_initialization();
 
-    // using algorithms for copying ranges (std::vector or std::array)
-    Algorithms::Copying_Vectors::test_vector_copying();
-    Algorithms::Copying_Arrays::test_array_copying();
+    //// using algorithms for copying ranges (std::vector or std::array)
+    //Algorithms::Copying_Vectors::test_vector_copying();
+    //Algorithms::Copying_Arrays::test_array_copying();
 
-    // using algorithms for elementary calculations (std::vector or std::array)
-    Algorithms::Elementary_Calculations_With_Vectors::test_vector_sum_calculation();
-    Algorithms::Elementary_Calculations_With_Arrays::test_array_sum_calculation();
+    //// using algorithms for elementary calculations (std::vector or std::array)
+    //Algorithms::Elementary_Calculations_With_Vectors::test_vector_sum_calculation();
+    //Algorithms::Elementary_Calculations_With_Arrays::test_array_sum_calculation();
 }
 
 // =====================================================================================

@@ -65,13 +65,14 @@ namespace StdExpected {
     //==================================================================================
     // std::expected
 
-    static std::expected<double, std::string> divide(double numerator, double denominator) {
+    static std::expected<double, std::string> 
+    divide(double numerator, double denominator) {
 
         if (denominator == 0.0) {
             return std::unexpected{ "Error: Division by zero" };
         }
 
-        return std::expected<double, std::string> { numerator / denominator};
+        return std::expected<double, std::string> { numerator / denominator };
     }
 
     static void test_excepted_01()
@@ -108,8 +109,8 @@ namespace StdExpected {
         auto squareResult{ result.and_then(
             [](auto value) {
                 return std::expected<double, std::string>{ square(value) };
-            })
-        };
+            }
+        )};
 
         return squareResult;
     }
@@ -253,7 +254,7 @@ namespace StdExpected {
     static void test_excepted_06()
     {
         auto numerator = 20.0;
-        auto denominator = 0.0;
+        auto denominator = 2.0;
 
         // use 'or_else' to handle errors
         auto errorResult = divide(numerator, denominator)
@@ -279,10 +280,10 @@ void main_expected()
 {
     using namespace StdExpected;
 
-    //test_excepted_01();   // std::expected
-    //test_excepted_02();   // and_then
-    //test_excepted_03();   // transform
-    //test_excepted_04();   // transform
+    test_excepted_01();   // std::expected
+    test_excepted_02();   // and_then
+    test_excepted_03();   // transform
+    test_excepted_04();   // transform
     test_excepted_05();
     test_excepted_06();
 }

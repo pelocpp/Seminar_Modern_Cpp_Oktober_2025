@@ -20,6 +20,7 @@ namespace AlgorithmTransform {
         //std::vector<int> vec;
         //auto s = vec.size();
 
+        // Hash Table: telefonbuch
         std::unordered_map<std::string, size_t> phonebook
         {
             { "Hans Meier" ,     12345678 },
@@ -27,19 +28,40 @@ namespace AlgorithmTransform {
             { "Hubert Mueller",  87654321 }
         };
 
-        for (const auto& [name, number] : phonebook) {
-            std::cout << name << ": " << number << std::endl;
+        for (const std::pair<std::string, size_t>& entry : phonebook) {
+            std::cout << entry.first << ": " << entry.second << std::endl;
         }
 
+        //for (const auto& entry : phonebook) {
+        //    std::cout << entry.first << ": " << entry.second << std::endl;
+        //}
+
+        //for (const auto& [name, number] : phonebook) {
+        //    std::cout << name << ": " << number << std::endl;
+        //}
+
         std::vector<std::string> names(phonebook.size());  // set size of vector (!)
+        //std::vector<std::string> names;  
 
         // std::transform on a single range - retrieve names from phonebook
         std::transform(
+            // Ursprung: phonebook // Source // Anfang&Ende
             phonebook.begin(),
             phonebook.end(),
-            names.begin(),      // beginning of the destination range
+            
+            // Ziel: names // Target // Anfang // beginning of the destination range
+            // names.begin()
+
+            // Ziel: names // Target // Arbeite jetzt mit push_back // Adapter
+            std::back_inserter (names),
+            
+            // Lambda: Beschreibt // Implementiert die Art und Weise der Transformation
             [](const std::pair<const std::string, size_t>& entry) {
-                return std::get<0>(entry);
+
+                // extract name from std::pair
+                const std::string& name = entry.first;
+
+                return name;
             }
         );
 
@@ -118,8 +140,8 @@ void main_transform()
 {
     using namespace AlgorithmTransform;
     test_01();
-    test_02();
-    test_03();
+    //test_02();
+    //test_03();
 }
 
 // =====================================================================================

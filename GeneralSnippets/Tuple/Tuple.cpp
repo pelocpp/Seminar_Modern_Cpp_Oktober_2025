@@ -22,15 +22,16 @@ namespace TupleSamples {
 
         // accessing tuple values using std::get
         {
-            auto value1{ std::get<0>(values) };
-            auto value2{ std::get<1>(values) };
-            auto value3{ std::get<2>(values) };
+            auto& value1{ std::get<0>(values) };
+            auto& value2{ std::get<1>(values) };
+            auto& value3{ std::get<2>(values) };
 
             std::print("The values of tuple are : ");
             std::println("{} - {} - {}", value1, value2, value3);
         }
 
         // use std::get to change single values of a tuple 
+        // get liefert eine Referenz zurück
         std::get<0>(values) = 'M';
         std::get<2>(values) = 135.79;
 
@@ -48,6 +49,10 @@ namespace TupleSamples {
     // =======================================================
     // demonstrating use of std::vector with std::tuple elements
 
+    // int n;
+    // Hier wird einer Variablen im Speicher ein Name gegeben
+
+    // using wird verwendet, um einem TYPEN einen Namen zu geben
     using Row = std::tuple<int, char, double, std::string>;
 
     static std::string rowToString(const Row& row)
@@ -84,6 +89,8 @@ namespace TupleSamples {
 
     static void test_03()
     {
+        using Row = std::tuple<int, char, double, std::string>;
+
         Row row1{ 10, 'A', 1.11, "Mueller" };
         Row row2{ 11, 'B', 2.22, "Sepp" };
         Row row3{ 12, 'C', 3.33, "Hans" };
@@ -102,6 +109,7 @@ namespace TupleSamples {
         std::println("Value: {}", val);
         std::println("Name:  {}", name);
 
+        // for-each, kombiniert mit Structured Binding
         for (const auto& [id, abbr, val, name] : mySheet)
         {
             std::println("Id:    {}", id);

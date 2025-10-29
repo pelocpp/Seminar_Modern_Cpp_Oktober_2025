@@ -37,6 +37,14 @@ namespace OptionalExamples {
     * Using optionals to represent the absence of a value
     */ 
 
+    // Mobil Phone
+    // Festnetz
+    // dienst. Tel. Nr.
+    // Priv. Mobile Phone
+
+    // std::string "" == Keine Nr.
+
+
     class Contact
     {
     private:

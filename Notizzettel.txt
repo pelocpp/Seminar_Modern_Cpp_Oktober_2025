@@ -31,10 +31,9 @@ Datei Seminar_STL_Container_02.cpp
 
 ===================================================
 
+ToDo-Liste:
 
-Python: Dictionary
-
-Hash-Tabelle:  Morgen ...
+STL Performanz
 
 
 ====================================================
@@ -1165,6 +1164,148 @@ Structured Binding
 
 std::transform
 
-Nach der Pause:  13:40
+Range-based for-Loop
+
+=============================================
+
+std::transform
+--------------
+
+Wie arbeitet std::transform intern:
+
+a) Der Ziel-Container muss vorhanden sein (trivial)
+
+b) Die umgewandelten Werte werden mit operator= in den Ziel-Container geschrieben.
+
+   Vorraussetzung: Der  Ziel-Container darf NICHT leer sein,
+                   er muss eine passende Anzahl von Objekten bereits enthalten.
+
+Hmmmmmmmmmmmmmmmmmm ... Will das mit dem NICHT leeren Ziel-Container vermeiden
+
+c) Ich will auch nicht mit dem operator= intern arbeiten.
+
+d) Es gibt eine ALTERNATIVE:
+Man kann in den Ziel-Container mit push_back schreiben/ anhängen.
+
+Wie ??? Mit einem Adapter:
+
+ZB den std::back_inserter:  ==> push_back
+
+Was haben wir gelernt:
+
+std::copy // std::transform ==> Wollen einen Ziel-Container verwenden
+== dieser darf nicht leer sein
+== es wird mit operator= in das Ziel geschrieben
+
+ALTERNATIVE:
+== der Ziel-Container ist leer
+== mit einem Adapter kann man in den 'push_back'-Modus umschalten.
+
+=============================================================
+
+Die STL hat eine gewisse Stilistik:
+
+Bausteine // Building Blocks:
+
+Funktionalität ist in einem Lambda abgelegt.
+
+=============================================================
+
+STL: Performanz :)
+
+=============================================================
+
+Neue Utility Klassen:
+
+Diese sind für das alltägliche Arbeiten wichtig ...
+
+std::optional:
+
+Problem:
+
+int n;
+
+n = 0;   // ist das ein zulässiger Wert
+
+Ich will ungültige Werte erkennen
+
+n = -1;        // ist das ein zulässiger Wert
+
+n = -MaxInt;   // ist das ein zulässiger Wert
+
+Exakt:
+
+int  n;
+bool isValid;
+
+std::optional
+
+// =============================
+
+std::expected:   C++  23
+
+Fehlerbehebung:
+
+a) Exceptions: Hmm, Code wird aufgebläht .....
+
+b) Return Code: Kann man ignorieren ...
+
+std::expected:
+
+a) Ähnlichkeiten: std::pair (std::variant) // 2 Werte vorhanden und zu std::optional
+
+   i) Gut-Fall
+   ii) Schlecht-Fall Situation
+
+============================================================
+
+Ab 20 und höher
+
+==> Echt coole Sachen: std::exptected, std::optional, std::jthread, ...
+
+==> Sachen: (Praktiker // Pragmatiker): Brauchen wir das wirklich.
+
+    Coroutine: Im Umgang SPERRIG ...  
+
+==> Reflection for C++26
+
+C#, Java schon lange vorhanden ...
+
+
+C++ ist LEBENDIG
+
+Eine gute Programmiersprache sollte IRGENDWANN einen Status Quo erreichen.
+
+C# 5 aufwärts .... Kleinigkeiten ... 
+
+============================================================
+
+std::tuple:
+
+Hat mehrere Werte, die zu einem Ganzen zusammengefasst werden.
+
+Helfer
+
+Utility-Klasse
+
+std::tuple <char, int, double> values;
+
+Womit hat ein std::tuple ist ähnlich ???
+
+===> Struktur für Schreibfaule:
+
+Elemente Namen vergeben.
+
+Strctured Binding: [id, abbr, val, name] // auch hier (tuple)
+                   können Namen vergeben werden
+
+
+Excel // Google Sheets:  Reihe : Verschiedene Werte
+
+=======================================================
+
+std::reference_wrapper
+
+=======================================================
 
 

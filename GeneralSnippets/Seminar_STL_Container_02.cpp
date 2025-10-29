@@ -7,6 +7,39 @@
 #include <unordered_map>
 #include <map>
 
+static auto main_seminar_stl_fill_mit_for_each()
+{
+    std::println("std::vector: using std::for_each");
+
+    std::vector<double> values(10, 1.0);
+
+    std::for_each(
+        values.begin(),
+        values.end(),
+        [](double& elem) {   // modifying elements of container
+            elem = elem + 123.0;    // Note: Using &
+        }
+    );
+
+    std::generate(
+        values.begin(),
+        values.end(),
+        [] () { return 456.0; }
+    );
+
+    // std::for_each kann auch die Elemente eines Containers ändern !!!
+    // durch Verwendung einer Referenz
+
+    std::for_each(
+        values.begin(),
+        values.end(),
+        [](double elem) {
+            std::println("Wert: {}", elem);
+        }
+    );
+}
+
+
 void main_seminar_stl_fill()
 {
     std::vector<int> numbers (1000, 1);
@@ -247,6 +280,12 @@ void main_seminar_stl_find_05()
 
 }
 
+
+template <typename KeyType>
+using InsertResultEx
+  = std::pair <typename std::unordered_map<KeyType, std::string>::iterator, bool>;
+
+
 void main_seminar_stl_find_06()
 {
     // Wörterbuch: "Deutsch" => "Italienisch"
@@ -276,12 +315,21 @@ void main_seminar_stl_find_06()
         entries.begin(),
         entries.end(),
         [&] (const auto& entry) {
+
+            using InsertResult
+                = std::pair <std::unordered_map<std::string, std::string>::iterator, bool>;
         
-            std::pair <std::unordered_map<std::string, std::string>::iterator, bool> result
-                = dictionary.insert(entry);
+            InsertResult result = dictionary.insert(entry);
+
+            InsertResultEx<std::string> result2 = dictionary.insert(entry);
+
+
+
+            //std::pair <std::unordered_map<std::string, std::string>::iterator, bool> result
+            //    = dictionary.insert(entry);
 
             // oder
-            auto result2 = dictionary.insert(entry);
+            auto result3 = dictionary.insert(entry);
 
             bool success = result.second;
 
@@ -340,5 +388,5 @@ void main_seminar_stl_find_06()
 
 void main_seminar_stl_02()
 {
-    main_seminar_stl_find_06();
+    main_seminar_stl_fill_mit_for_each();
 }

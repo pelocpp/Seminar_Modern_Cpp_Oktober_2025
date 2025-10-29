@@ -6,6 +6,7 @@ module modern_cpp:reference_wrapper;
 
 namespace MyReferenceWrapper {
 
+    // Hmmm, das sollte man erst man grundsätzlich diskutieren ...
     static void task (int& data) {    // expecting a reference to int 
         data = 123;
     }
@@ -16,7 +17,7 @@ namespace MyReferenceWrapper {
 
         std::cout << data << std::endl;
 
-        // std::thread t{ task, data };  // doesn't compile
+      //  std::thread t{ task, data };  // doesn't compile
 
         std::thread t{ task, std::ref(data) };      // works
 
@@ -31,7 +32,14 @@ namespace MyReferenceWrapper {
          *  (in this case: Erasable)
          */
 
-        // std::vector<std::string&> names;  // doesn't compile
+        // STL: Warum steht die STL in der Kritik
+        // std::vector<std::string> names; 
+        // Da sind alle Objekte in Gestalt einer KOPIE im std::vector
+        std::vector<std::string*> names0;   // Hmmm  new / delete
+
+        // Hm, Per se verwalten STL Container keine Referenzen
+        // Sie verwalten Objekte // Kopien 
+        // std::vector<std::string&> names;  // doesn't compile:  ERror
 
         std::vector<std::reference_wrapper<std::string>> names;
 
@@ -39,7 +47,7 @@ namespace MyReferenceWrapper {
         std::string name2{ "Sepp" };
         std::string name3{ "Georg" };
 
-        names.push_back(std::ref(name1));
+        names.push_back(std::ref(name1));  // keine Kopien ...
         names.push_back(std::ref(name2));
         names.push_back(std::ref(name3));
 

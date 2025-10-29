@@ -28,7 +28,7 @@ int main()
       //  main_seminar_stl_02();
 
         //main_accumulate();
-        //main_algorithms();
+      //  main_algorithms();
         //main_allocator();
         //main_any();
         //main_argument_dependent_name_lookup();
@@ -55,7 +55,7 @@ int main()
         //main_erase_remove_idiom();
         //main_expression_templates();
         //main_exception_safety();
-        //main_expected();
+       // main_expected();
         //main_explicit_keyword();
         //main_folding();
         //main_functional_programming_ranges();
@@ -76,7 +76,7 @@ int main()
         //main_modularized_standard_library(); 
         //main_modules();
         //main_move_semantics();
-        //main_optional();
+      //  main_optional();
         //main_perfect_forwarding();
         //main_placement_new();
         //main_println();
@@ -84,7 +84,7 @@ int main()
         //main_raii_02();
         //main_random();
         //main_range_based_for_loop();
-        //main_reference_wrapper();
+        main_reference_wrapper();
         //main_regular_expressions();
         //main_rvalue_lvalue();
         //main_sfinae();
@@ -93,7 +93,7 @@ int main()
         //main_sso();
         //main_static_assert();
         //main_string_view();
-        main_structured_binding();
+        //main_structured_binding();
         //main_templates_class_basics_01();
         //main_templates_class_basics_02();
         //main_templates_function_basics();
@@ -102,7 +102,7 @@ int main()
         //main_templates_specialization();
         //main_to_underlying();
        // main_transform();
-        //main_tuple(); 
+      //  main_tuple(); 
         //main_two_phase_name_lookup();
         //main_type_erasure();
         //main_type_traits();
