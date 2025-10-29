@@ -5,7 +5,7 @@
 #include <vector>
 #include <forward_list>
 #include <unordered_map>
-
+#include <map>
 
 void main_seminar_stl_fill()
 {
@@ -280,6 +280,9 @@ void main_seminar_stl_find_06()
             std::pair <std::unordered_map<std::string, std::string>::iterator, bool> result
                 = dictionary.insert(entry);
 
+            // oder
+            auto result2 = dictionary.insert(entry);
+
             bool success = result.second;
 
             if (success) {
@@ -321,8 +324,10 @@ void main_seminar_stl_find_06()
     std::println("Contents of Dictionary:");
 
     std::for_each(
+
         dictionary.begin(),
         dictionary.end(),
+
         [](const std::pair<std::string, std::string>& entry) {
 
             const std::string& word = entry.first;

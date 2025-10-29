@@ -1027,3 +1027,144 @@ d) Gebe den Inhalt des Wörterbuchs in der Konsole aus.
 
 https://wandbox.org/
 
+== 
+
+    std::unordered_map<std::string, std::string> dictionary;
+    // Hash-Tabellen
+
+    std::map<std::string, std::string> dictionary2;
+    // Binärer Suchbaum (ordered red-black tree)
+
+Was ist der (grobe) Unterschied zwischen diesen beiden Klassen:
+
+Der binäre Suchbaum ist SORTIERT.
+
+Wenn suchen schnell sein soll:
+
+Go for std::unordered_map // Hash-Tabellen
+
+=======================
+
+STL:  Das Transformieren:   std::transform
+
+Daten
+   // Verarbeitet werden
+   // umgewandelt 
+   // aufbereitet auf ein anderes Format
+
+=========================
+
+size_t:
+
+Wird verwendet oder nicht ???
+
+int, long
+
+==> habe in meiner Anwendung nur positive Werte
+
+==> Wo ist das Problem:
+    man muss von dem int die negativen Werte nicht bebutzen
+
+    2. Lösung: unsigned int, unsigned long
+
+    unsigned int n;
+
+    n = 10;
+
+    while (n >= 0) 
+    {
+       ....
+       --n;
+    }
+
+    VORSICHT // FALSCH; Ein unsigned int ist IMMER groesser Null.
+
+    --0 ==> 243534534
+
+Fazit:
+
+Habe in meiner Anwendung nur positive Werte
+
+size_t:
+
+typedef unsigned __int64 size_t;
+
+a) Nur für positive Zahlen
+b) Ist auf die Breite des Akkus angepasst.
+
+        std::size_t n1;   // C++
+
+        size_t n2;        // C - hier kennt man keine Namensräume
+
+// =============================================================
+
+Structured Binding
+------------------
+
+
+Frage:
+
+Wie kann ich aus einer Funktion / Methode
+mehr als einen Wert zurückgeben ????
+
+a) std::pair
+
+b) std::vector
+
+c) Container
+
+d) Back to the Roots: Ohne STL
+
+i)   Pointer auf eine Tabelle : Uhhhh ... Pointer (new)  // delete !!!!
+
+ii)  struct Table: Sehr gut!!
+
+iii) foo (int& result1, int& result2)   // no const !!!!
+
+     int r1;
+     int r2;
+
+     foo (r1, r2);
+
+
+Frage:
+
+Analyse-Tools, um zB Schwachstellen von auto zu erkennen:
+
+Tool Cppcheck
+
+https://cppcheck.sourceforge.io/
+
+Oder ein Lint // Linter
+
+Oder
+
+https://github.com/Aldlevine/VSCodeCppcheck
+
+Oder
+
+https://www.cppcheck.com/
+
+Oder
+
+https://medium.com/@rogerbooth/c-gotcha-unnecessary-copies-due-to-the-misuse-of-auto-ed24e65b5efd
+
+Oder
+
+https://learn.microsoft.com/en-us/cpp/ide/cpp-linter-overview?view=msvc-170
+
+Dennis Ritchie:  Founder of C
+
+A Programmer knows what he does!
+
+Das ist nicht die Meinung von Bjarne Stroustrup:
+
+=============================================
+
+Structured Binding
+
+std::transform
+
+Nach der Pause:  13:40
+
+

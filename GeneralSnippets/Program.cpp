@@ -25,7 +25,7 @@ int main()
     try
     {
        // main_seminar_stl();
-        main_seminar_stl_02();
+      //  main_seminar_stl_02();
 
         //main_accumulate();
         //main_algorithms();
@@ -34,7 +34,7 @@ int main()
         //main_argument_dependent_name_lookup();
         //main_array();
         //main_array_decay();
-        main_attributes();
+   //     main_attributes();
        // main_auto();
         //main_back_inserter();
         //main_bind();
@@ -93,7 +93,7 @@ int main()
         //main_sso();
         //main_static_assert();
         //main_string_view();
-        //main_structured_binding();
+        main_structured_binding();
         //main_templates_class_basics_01();
         //main_templates_class_basics_02();
         //main_templates_function_basics();
@@ -101,7 +101,7 @@ int main()
         //main_templates_template_parameter_02();
         //main_templates_specialization();
         //main_to_underlying();
-        //main_transform();
+       // main_transform();
         //main_tuple(); 
         //main_two_phase_name_lookup();
         //main_type_erasure();

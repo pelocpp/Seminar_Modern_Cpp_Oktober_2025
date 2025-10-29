@@ -2,6 +2,10 @@
 // Transform.cpp // std::transform
 // =====================================================================================
 
+module;
+
+#include <cstddef>
+
 module modern_cpp:transform;
 
 namespace AlgorithmTransform {
@@ -10,6 +14,11 @@ namespace AlgorithmTransform {
     {
         // very simple phone book
         std::cout << "List of Entries: " << std::endl;
+
+        //std::size_t n1;
+        //size_t n2;
+        //std::vector<int> vec;
+        //auto s = vec.size();
 
         std::unordered_map<std::string, size_t> phonebook
         {
