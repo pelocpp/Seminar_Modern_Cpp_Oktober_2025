@@ -1023,3 +1023,7 @@ c) Suchen Sie nach einem Wort: Mache eine Übersetzung
 d) Gebe den Inhalt des Wörterbuchs in der Konsole aus.
 
 
+===
+
+https://wandbox.org/
+
