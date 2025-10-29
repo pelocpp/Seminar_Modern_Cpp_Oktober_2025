@@ -25,7 +25,7 @@ int main()
     try
     {
        // main_seminar_stl();
-      //  main_seminar_stl_02();
+        main_seminar_stl_02();
 
         //main_accumulate();
         //main_algorithms();

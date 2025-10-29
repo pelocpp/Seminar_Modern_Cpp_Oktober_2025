@@ -31,21 +31,11 @@ Datei Seminar_STL_Container_02.cpp
 
 ===================================================
 
-ToDo-Liste:
 
->> STL Container
+Python: Dictionary
 
-== Initialisierung („Brace Initialization” bzw. „Uniform Initialization”)
+Hash-Tabelle:  Morgen ...
 
-== Smart Pointer
-
-== constexpr
-
-== STL Algorithmen
-
-== Übung
-
-== Online Compiler
 
 ====================================================
 
@@ -862,9 +852,6 @@ std::minmax_element
 warning C4834:
 discarding return value of function with [[nodiscard]] attribute
 
-Python: Dictionary
-
-Hash-Tabelle:  Morgen ...
 
 =======================================================
 
@@ -882,5 +869,157 @@ Funktion NICHT mehr verwenden.
 
 
 warning C4834: discarding return value of function with [[nodiscard]] attribute
+
+=======================================================
+
+Wie lassen sich Daten ablegen ???
+
+"Der Reihe nach / hintereinander" im Speicher liegen.
+
+==> Zugriff ist effizient - Index - Skalieren ...
+
+Zur Architektur von Containern (STL):
+
+https://github.com/pelocpp/cpp_clean_performant_secure/blob/master/Clean_Performant_Code/Data_Structures_and_Algorithms/Readme_Data_Structures_and_Algorithms.md
+
+=================================
+
+Kernintention der STL:
+
+Transparenz // leichte Austauschbarkeit von Containern und Algorithmen.
+
+Hmmm, wenn wir von sequentiellen Containern (Array. Vektor)
+zu assoziativen Containern wechseln, geht die Transparenz
+"ein wenig" verloren :)
+
+=================================
+
+Assoziative Container werden in der Informatik
+
+auch assoziative Arrays oder Maps oder Dictionaries oer Hash Tabellen genannt.
+
+
+Beispiel:
+
+A) Telefonbuch
+
+Besteht aus Namen und Nummern // "Müller", 1232234
+                              // "Meier", 43534435
+
+
+B) Lexikon zweier Sprachen:
+
+   Deutsch // Englisch
+
+   Schlüssel: Wert - "Haus"
+   Wert:      Value - "house"
+
+
+C) Auftragsverwaltung:  
+
+   DB Bahn:
+   Schlüssel:   Auftragsnummer
+   Wert:        Alle Daten der Reise
+
+
+Was ist das Problem, wenn ich ein  Telefonbuch aus einen
+Vektor abbilden wollte ???
+
+Laufzeit bei der Suche nach einem Eintrag:
+
+"Meier", 43534435  ===> 1.000 Stelle
+
+==> Suche Nr. von Meier
+
+Muss von Anfang an jeden Namen mit "Meier" vergleichen / Suchen,
+werden an der 1.000-Stelle fündig und kann dann die Nr. zurückgeben.
+
+Ggf. , wenn der Name nicht im Tel.Buch enthalten ist: Muss bis zum Ende laufen.
+
+Lineare Suche.
+
+Frage: Wie dann ???????????????????????
+
+Idee:
+
+Man lege die Einträge (Name, Nummer) doch in einem Vektor an ...
+
+der Länge 100
+
+Wie komme ich dann zu dem Index: NICHT Linearen Suche.
+
+Der Index wird BERECHNET !
+
+Wie berechnet:
+
+Streufunktion: "Meier" :  
+
+77 + 65 + 105 + 65 + 72 = ca. 320 % 100 == ergibt 20
+
+==> Index 20.
+
+Bild:
+
+Franz Schneider: Streufunktion ==> 1: Die Infos zu 
+
+           Franz Schneider müssen in dem Array an der 1. Stelle abgelegt werden.
+
+Hans Mueller: Streufunktion ==> 152: 
+
+           Die Infos zu Hans Mueller müssen in dem Array an der 152. Stelle abgelegt werden.
+
+Tina Meier:   Streufunktion ==> 152: 
+
+         Ohhh, da haben wir einen Konflikt:
+
+
+Dies alles hat die STL dabei:    std::unordered_map
+
+Mappe ==> Abbildung von Name auf Nummer
+
+Ungeordnet: ==> Die Elemente selbst sind nicht geordnet
+
+                // Im Regelfall brauche ich das auch nicht !!!
+
+Nomenklatur:
+
+Eintrag:    Name, Nummer
+
+            Schlüssel (Key)  ===> Wert (Value)   // (Key, Value) Paaren
+
+Index wird berechnet: Streuen in einen Bereich:. streuen ==> to hash
+
+Tabelle mit den Listen:  std::vector  :  Hash-Tabelle // Streutabelle
+
+Länge: 100  naiv ===> Theorie für eine optimale Länge:
+
+           tatsächliche Länge wird hinter den Kulissen berechnet
+
+
+Hinweis // Fingerzeig:
+
+Wann könnte eine Hashtabelle angezeigt sein:   Suchen ...
+
+                          Wonach:  Schlüssel
+                          Was:     Wert
+
+
+========================================================
+
+Übungsaufgabe zu Hashtabellen:
+
+Siehe "Seminar_STL_Container_02.cpp"
+
+Modelliere ein Wörterbuch "Deutsch => Englisch"
+
+a) Sie muss das Objekt vom Typ std::unordered_map aussehen
+
+b) Fügen Sie 5 Wörter mit Übersetzung ein
+
+   "Haus" ==> "house"
+
+c) Suchen Sie nach einem Wort: Mache eine Übersetzung
+
+d) Gebe den Inhalt des Wörterbuchs in der Konsole aus.
 
 
