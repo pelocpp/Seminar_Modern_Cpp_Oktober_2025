@@ -1497,3 +1497,7 @@ bool result = AndAll (true, true, true, true, true, true);   // true
 
 bool result = AndAll (true, true, true, true, false, true);   // false
 
+Folding.cpp
+
+NOtizzettel.txt
+
