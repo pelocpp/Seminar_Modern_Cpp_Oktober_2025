@@ -1497,7 +1497,227 @@ bool result = AndAll (true, true, true, true, true, true);   // true
 
 bool result = AndAll (true, true, true, true, false, true);   // false
 
-Folding.cpp
+=========================================================
 
-NOtizzettel.txt
+std::array   // Praxis
 
+Array:  FESTE Anzahl von Werten
+
+C-Style Array
+int zahlen [10];   // diese 10 ist fest
+
+C++ Klasse für ein Array:
+std::array<int, 10> zahlen;
+
+Hmmm, bringt diese Klasse std::array etwas ???
+
+Jaaaaaaaaaa, wir sollten wechseln zu std::array.
+
+Technik: 
+
+std::array ist eine Hülle um ein C-Style Array
+
+a) In std::array ist die LÄNGE mit dabei
+
+
+int zahlen [10];
+
+Klassiker
+
+void function (int* ptr, size_t len)
+{
+   // habe ich KEINE Info bzgl. der Länge der Daten
+}
+
+
+function (zahlen, 10);   
+
+Weitere Vorteile:
+
+C-Style Array
+int zahlen [10]; 
+
+int n  = 100;
+zahlen[n] = 123;   // Wird n als Index auf korrekten Wert überprüft ???
+                   // Nein !!!
+
+C++ Klasse für ein Array:
+std::array<int, 10> zahlen;
+
+int n  = 100;
+zahlen[n] = 123;   // Wird n als Index auf korrekten Wert überprüft ???
+                   // Nein !!!
+
+ABER:
+
+int n  = 100;
+zahlen.at (n) = 123;   // Wird n als Index auf korrekten Wert überprüft ???
+                       // Jaaa !!! Exception
+
+Schwachstelle:
+
+    static void print(const std::array<int, 5>& array) {
+        std::println("Length: {}", array.size());
+    }
+
+
+Lösung:
+
+std::span
+
+Das ist eine Helfer-Klasse mit 2 Variablen:
+
+a) Anfangsadresse
+b) Längenangabe
+
+    static void print(std::span<int> array) {
+        std::println("Length: {}", array.size());
+    }
+
+
+std::span ist cool, ABER VORSICHT:
+
+... 7E0
+... AC0
+
+
+Ein std::span Objekt ist ein NON-OWNING Container !!!
+
+==================
+
+SSO (Small String Optimization)
+
+std::string:  Wo liegen die Daten
+
+{
+    std::string s { "Hello"};
+}
+
+Ausnahme:  // Optimierung
+
+=================================================
+
+std::vector
+std::initializer_list
+
+
+std::string
+std::string_view
+
+
+Frage:
+
+const char* cp = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+                    NICHT AM HEAP  
+
+std::string s { "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" };
+
+  Am Ende:          AM HEAP
+
+Müssen die am Heap liegen ???
+
+Mache ich Zeichenkettenverarbeitung ???  std::string
+
+"Local Windows Debugger":  Muss die am Heap liegen ???
+
+Die kann / sollte in einem glob. Datensegment // Code-Segment
+
+// cp ist eine globale Variable
+const char* cp = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+{
+    const char* cp = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+}
+
+Müssen die am Heap liegen ??? 
+
+Könnte auch NEIN die Antwort.
+
+std::string nicht die Wahl
+
+const char*
+
+Ab C++ 17:
+
+std::string_view:
+
+Hülle:
+
+a) Adresse
+b) Länge
+
+std::string_view sv { "AAAAAAAAA!AAAAAAAAAAAAAAAAAAAAAA" };   // NICHT AM HEAP
+
+OO_Methoden // Read-Only
+
+Go for std::string_view
+
+=========================================================
+
+Abschluss:
+
+All-In:
+
+Mehrere der vorgestellten Konzepte an einem
+Komplex-Beispiel:
+
+Buchhandlung:
+
+2 Versionen
+
+== Vererbung // Polymorphismus
+
+== virtuelle Methoden <=== sind langsam
+
+== "Statischen Polymorphismus"
+
+== std::variant
+
+== Container // homogener / heterogener Container
+
+Wo befindet sich das Beispiel:
+
+Im Abschnitt zu "Type Erasure"
+
+Was ist Type Erasure ?? Typ löschen 
+
+std::function ==> Lambda, Objekt ( operator() ), C-Funktion
+
+   Callable
+
+Habe bislang keine Anwendungsfälle gefunden !!!
+std::function // std::variant // 
+
+Buchhandlung:
+
+2 Facetten:
+
+A) dynamisch // Vererbung // Schnittstellenkonzept
+
+B) statisch  // Keine Vererbung: Plus
+
+                Container mit std::variant
+
+                Dieser kann Objekte unterschiedlichen Typs aufnehmen
+
+                Aufrufe an die Objekte sind DIREKT (Plus)
+
+                std::visit (um an das Objekt zu gelangen) (Minus)
+
+                In Summe: Vielleicht etwas flexibler ... weil keine Hierarchie
+
+Gegenüberstellung
+
+Alles C++ 17
+
+Neuen Konzepte an einem praxisnahen Beispiel.
+
+
+Buchhandlung:
+
+Verschiedene Medien verkaufen: Buch, CD, DVD, BlueRay
+
+Wo führt das hin ??????????????????????
+
+2 Version:   Alternativer Ansatz 

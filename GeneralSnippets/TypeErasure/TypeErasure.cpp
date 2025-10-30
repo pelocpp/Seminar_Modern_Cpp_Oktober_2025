@@ -227,6 +227,7 @@ namespace TypeErasureUsingTemplateTechniquesAndConcepts {
 
 namespace BookStoreUsingDynamicPolymorphism {
 
+    // Interface // Unvollständige Klasse
     struct IMedia
     {
         virtual ~IMedia() = default;
@@ -258,7 +259,7 @@ namespace BookStoreUsingDynamicPolymorphism {
         size_t getCount() const override { return m_count; }
     };
 
-    class Movie : public IMedia
+    class Movie : public IMedia  // Implementierung des Interface IMedia
     {
     private:
         std::string m_title;
@@ -285,11 +286,26 @@ namespace BookStoreUsingDynamicPolymorphism {
     {
     private:
         using Stock = std::vector<std::shared_ptr<IMedia>>;
+
+        using Stock2 = std::vector<IMedia*>;
+
+        Stock2 m_dummy;
+
         using StockList = std::initializer_list<std::shared_ptr<IMedia>>;
+        
+        using StockList2 = std::initializer_list<IMedia*>;
 
         Stock m_stock;
 
     public:
+        void test()
+        {
+            // IMedia media;
+            IMedia* media = new Book("", "", 0.0, 0);
+            m_dummy.push_back(media);
+        }
+
+
         // c'tor
         explicit Bookstore(StockList stock) : m_stock{ stock } {}
 
@@ -299,7 +315,9 @@ namespace BookStoreUsingDynamicPolymorphism {
             double total{};
 
             for (const auto& media : m_stock) {
-                total += media->getPrice() * media->getCount();
+
+                // Gebrauch von   "->"   // Indirekter Methodenaufruf
+                total += media -> getPrice() * media -> getCount();
             }
 
             return total;
@@ -323,6 +341,10 @@ namespace BookStoreUsingDynamicPolymorphism {
 
     static void test_bookstore_polymorphic_01() {
 
+        // Übersetzt, weil IMedia Basisklasse von Book ist !!!!
+        Book* cBook2{ new Book("C", "Dennis Ritchie", 11.99, 12) };
+
+
         std::shared_ptr<IMedia> cBook{ std::make_shared<Book>("C", "Dennis Ritchie", 11.99, 12) };
         std::shared_ptr<IMedia> javaBook{ std::make_shared<Book>("Java", "James Gosling", 17.99, 21) };
         std::shared_ptr<IMedia> cppBook{ std::make_shared<Book>("C++", "Bjarne Stroustrup", 16.99, 4) };
@@ -331,7 +353,8 @@ namespace BookStoreUsingDynamicPolymorphism {
         std::shared_ptr<IMedia> movieTarantino{ std::make_shared<Movie>("Once upon a time in Hollywood", "Quentin Tarantino", 6.99, 3) };
         std::shared_ptr<IMedia> movieBond{ std::make_shared<Movie>("Spectre", "Sam Mendes", 8.99, 6) };
 
-        Bookstore bookstore{
+        Bookstore bookstore
+        {
             cBook, movieBond, javaBook, cppBook, csharpBook, movieTarantino
         };
 
@@ -400,8 +423,13 @@ namespace BookStoreUsingDynamicPolymorphism {
 }
 
 // =====================================================================================
+// =====================================================================================
+// =====================================================================================
 
 namespace BookStoreUsingTypeErasure {
+
+    // KEINE Basisklasse // leitet sich von nichts ab ...
+    // Möglichkeit: Book stammt aus einer Bibliothek // Zulieferung
 
     class Book
     {
@@ -421,11 +449,13 @@ namespace BookStoreUsingTypeErasure {
         std::string getAuthor() const { return m_author; }
         std::string getTitle() const { return m_title; }
 
+        // hmmm, habe da jetzt kein Interface
+        // Abwarten :)
         double getPrice() const { return m_price; }
         size_t getCount() const { return m_count; }
     };
 
-    class Movie
+    class Movie   // Plus: keine Basisklasse
     {
     private:
         std::string m_title;
@@ -443,6 +473,8 @@ namespace BookStoreUsingTypeErasure {
         std::string getTitle() const { return m_title; }
         std::string getDirector() const { return m_director; }
 
+        // Hmmm, das hatten wir zuvor im Interface 
+        // Das fehlende Interface wird durch ein Concept ausgeglichen
         double getPrice() const { return m_price; }
         size_t getCount() const { return m_count; }
     };
@@ -450,8 +482,8 @@ namespace BookStoreUsingTypeErasure {
     template<typename T>
     concept MediaConcept = requires (const T & m)
     {
-        { m.getPrice() } -> std::same_as<double>;
-        { m.getCount() } -> std::same_as<size_t>;
+        { m.getPrice() } -> std::same_as<double>;   // 1. Requirement
+        { m.getCount() } -> std::same_as<size_t>;   // 2. Requirement
     };
 
     template <typename ... TMedia>
@@ -459,8 +491,12 @@ namespace BookStoreUsingTypeErasure {
     class Bookstore
     {
     private:
-        using StockType = std::variant<TMedia ...>;
+        using StockType = std::variant < TMedia ...> ; // flexibel
+
+        using StockType2 = std::variant < Book, Movie >;  // fix
+
         using Stock     = std::vector<StockType>;
+
         using StockList = std::initializer_list<StockType>;
 
         Stock m_stock;
@@ -471,8 +507,8 @@ namespace BookStoreUsingTypeErasure {
         // template member method
         template <typename T>
             requires MediaConcept<T>
-        void addMedia(const T& media) {
-            // m_stock.push_back(StockType{ media });  // detailed notation
+        void addMedia(const T& media) {  // T: Book, Movie
+           // m_stock.push_back(StockType{ media });  // detailed notation
             m_stock.push_back(media);                  // implicit type conversion (T => std::variant<T>)
         }
 
@@ -486,13 +522,21 @@ namespace BookStoreUsingTypeErasure {
 
             double total{};
 
+            // m_stock: std::vector von std::variant
+            // media ist ein  std::variant
             for (const auto& media : m_stock) {
+
+                
 
                 double price{};
                 size_t count{};
 
                 std::visit(
                     [&](const auto& element) {
+
+                        // Was fällt HIER AUF ???????
+                        // element.method();  // DIREKTER Methodenaufruf
+                        // Plus: // DIREKTER Methodenaufruf
                         price = element.getPrice();
                         count = element.getCount();
                     },
@@ -568,6 +612,7 @@ namespace BookStoreUsingTypeErasure {
 
     static void test_bookstore_type_erasure_01() {
 
+        // Stack // Keine Pointer
         Book cBook{ "C", "Dennis Ritchie", 11.99, 12 };
         Book javaBook{ "Java", "James Gosling", 17.99, 21 };
         Book cppBook{ "C++", "Bjarne Stroustrup", 16.99, 4 };
@@ -576,9 +621,19 @@ namespace BookStoreUsingTypeErasure {
         Movie movieTarantino{ "Once upon a time in Hollywood", "Quentin Tarantino", 6.99, 3 };
         Movie movieBond{ "Spectre", "Sam Mendes", 8.99, 6 };
 
+      //  class BlueRay{};
+
         using MyBookstore = Bookstore<Book, Movie>;
 
-        MyBookstore bookstore{
+        // Geht, man kann das noch toppen :)
+        std::vector <std::variant<Book, Movie>> m_store;   // 1. Ansatz
+
+        // Mögliches Minus:
+        // Books und Movies werden in einen std::variant eingepackt 
+        // Zusätzliche Hülle um die jeweiligen Objekte
+
+        MyBookstore bookstore
+        {
             cBook, movieBond, javaBook, cppBook, csharpBook, movieTarantino
         };
 

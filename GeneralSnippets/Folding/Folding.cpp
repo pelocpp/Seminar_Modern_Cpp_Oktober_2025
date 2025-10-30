@@ -12,14 +12,16 @@ module modern_cpp:folding;
 
 namespace Folding_Seminar {
 
-    //template <typename ... TArgs>
-    //int addierer(TArgs ... args) {
 
-    //    //            (... op pack)
-    //    auto result = (... +  args);
 
-    //    return result;
-    //}
+    template <typename ... TArgs>
+    int addierer2(TArgs ... args) {
+
+        //            (... op pack)
+        auto result = (... +  args);
+
+        return result;
+    }
 
     auto addierer(auto ... args) {
         return (... + args);
@@ -36,9 +38,17 @@ namespace Folding_Seminar {
         return result;
     }
 
+    auto andAll(auto ... args) {
+
+        auto result = (... && args);
+        return result;
+    }
 
     void test_seminar_folding()
     {
+        auto flag1 = andAll(true, true, true, true, true, true);
+        auto flag2 = andAll(true, true, true, true, true, false);
+
         auto result = addierer(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
         auto result2 = addierer(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0);

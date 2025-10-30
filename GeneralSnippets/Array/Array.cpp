@@ -2,6 +2,10 @@
 // Array.cpp // std::array // std::to_array // std::span
 // =====================================================================================
 
+module;
+
+#include <span>
+
 module modern_cpp:class_array;
 
 namespace StdArray {
@@ -12,7 +16,7 @@ namespace StdArray {
     static void test_01() {
 
         // initialization variants
-        [[maybe_unused]] std::array<int, 5> array1;
+        std::array<int, 5> array1;
 
         std::array<int, 5> array2{};
 
@@ -79,6 +83,7 @@ namespace StdArray {
         std::println("Length: {}", array.size());
     }
 
+
     template<typename T, int Length>
     void print(const std::array<T, Length>& array) {
         std::println("Length: {}", array.size());
@@ -91,6 +96,9 @@ namespace StdArray {
 
         std::array<int, 10> array2 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         print(array2);
+
+        std::array<int, 11> array3 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+        print(array3);
     }
 
     // -------------------------------------------------------------------
@@ -104,10 +112,17 @@ namespace StdArray {
             std::println("{}", elem);
         }
 
+        //int array2[5]{ 1, 2, 3, 4, 5 };
+
+        //for (auto elem : array2) {
+        //    std::println("{}", elem);
+        //}
+
         std::println("front:{}", array.front());
         std::println("back: {}", array.back());
 
         array.fill(123);
+
         for (auto elem : array) {
             std::println("{}", elem);
         }
@@ -332,13 +347,13 @@ namespace StdArray {
 
     static void test_30() {
 
-        int carr[]{ 1, 2, 3, 4, 5 };
+        int carr[]{ 1, 2, 3, 4, 5 };   // C-Style Array
         printArray(carr, 5);
 
-        std::array arr{ 6, 7, 8, 9, 10 };
+        std::array arr{ 6, 7, 8, 9, 10 };   // std::array
         printArray(arr.data(), arr.size());
 
-        std::vector vec{ 1, 3, 5, 7, 9 };
+        std::vector vec{ 1, 3, 5, 7, 9 };    // std::vector
         printArray(vec.data(), vec.size());
     }
 
@@ -378,6 +393,8 @@ namespace StdArray {
         printArray(std::span{ vec });
     }
 
+
+
     // --------------------------------------------------------------------
     // demonstrating std::span with const type
 
@@ -403,27 +420,47 @@ namespace StdArray {
         std::vector vec{ 1, 3, 5, 7, 9 };
         printArrayConst(vec);
     }
+
+    static void test_99() {
+
+        std::vector vec{ 1, 2, 3 };
+
+        //std::span sp{ vec };  // VORSICHT !!!!!!!
+
+        //printArray(sp);
+
+        //vec.push_back(4);
+
+        //printArray(sp);
+
+        printArray(std::span{ vec });
+
+        vec.push_back(4);
+
+        printArray(std::span{ vec });
+    }
 }
 
 void main_array()
 {
     using namespace StdArray;
 
-    test_01();
-    test_02();
-    test_03();
-    test_04();
-    test_05();
-    test_06();
-    test_07();
-    test_08();
-    test_09();
-    test_10();
-    test_11();
-    test_20();
-    test_30();
-    test_31();
-    test_32();
+    //test_01();
+    //test_02();
+    //test_03();
+    //test_04();
+    //test_05();
+    //test_06();
+    //test_07();
+    //test_08();
+    //test_09();
+    //test_10();
+    //test_11();
+    //test_20();
+    //test_30();
+    //test_31();
+    //test_32();
+    test_99();
 }
 
 // =====================================================================================

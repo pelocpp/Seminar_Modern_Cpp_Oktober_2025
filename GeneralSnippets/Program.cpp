@@ -59,7 +59,7 @@ int main()
         //main_exception_safety();
        // main_expected();
         //main_explicit_keyword();
-        main_folding();
+    //    main_folding();
         //main_functional_programming_ranges();
         //main_functional_programming();
         //main_functional_programming_alternate();
@@ -92,7 +92,7 @@ int main()
         //main_sfinae();
        // main_shared_ptr();
         //main_source_location();
-        //main_sso();
+       // main_sso();
         //main_static_assert();
         //main_string_view();
         //main_structured_binding();
@@ -106,7 +106,7 @@ int main()
        // main_transform();
       //  main_tuple(); 
         //main_two_phase_name_lookup();
-        //main_type_erasure();
+        main_type_erasure();
         //main_type_traits();
        // main_unique_ptr();
       //  main_variadic_templates_introduction();

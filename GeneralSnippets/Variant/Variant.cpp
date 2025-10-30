@@ -6,6 +6,7 @@ module;
 
 #include <variant>
 #include <vector>
+#include <print>
 
 module modern_cpp:variant;
 
@@ -266,6 +267,8 @@ namespace VariantDemo {
 
         std::vector<std::variant<int, long, long long, float, double>>
             vec = { 100, 200l, 300ll, 400.5f, 500.5 };
+
+        // Homogener Container // Heterogener Container
 
         // display each value
         std::println("Values:      ");
