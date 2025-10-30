@@ -4,6 +4,98 @@
 
 module modern_cpp:variadic_templates;
 
+
+namespace VariadicTemplatesSeminar
+{
+    template <typename T>
+    void printer(T n) {
+        std::cout << n << std::endl;
+    }
+
+    template <typename T, typename ... TArgs>      // einpacken: int, int, int, int   
+    void printer(T n, TArgs ... args) {               // einpacken : 2, 3, 4, 5
+        std::cout << n << std::endl;
+        printer<TArgs ...>(args ...);                // auspacken
+    }
+
+    static void test_variadic_seminar_01()
+    {
+        printer<int, int, int, int>( 1, 2, 3, 4 );
+    }
+
+    // ======================================================
+    // Wozu ???
+
+    class Unknown {
+    private:
+        int m_var1;
+        int m_var2;
+        int m_var3;
+
+    public:
+        Unknown() : m_var1{ -1 }, m_var2{ -1 }, m_var3{ -1 } {
+            std::cout << "c'tor()" << std::endl;
+        }
+
+        // copy c'tor
+        Unknown(const Unknown& other) 
+            : m_var1{ other.m_var1 }, m_var2{ other.m_var2 }, m_var3{ other.m_var3 } {
+            std::cout << "copy c'tor()" << std::endl;
+        }
+
+        Unknown(int n) : m_var1{ n }, m_var2{ -1 }, m_var3{ -1 } {
+            std::cout << "c'tor(int)" << std::endl;
+        }
+
+        Unknown(int n, int m) : m_var1{ n }, m_var2{ m }, m_var3{ -1 } {
+            std::cout << "c'tor(int, int)" << std::endl;
+        }
+
+        Unknown(int n, int m, int k) : m_var1{ n }, m_var2{ m }, m_var3{ k } {
+            std::cout << "c'tor(int, int, int)" << std::endl;
+        }
+
+        friend std::ostream& operator<< (std::ostream&, const Unknown&);
+    };
+
+    std::ostream& operator<< (std::ostream& os, const Unknown& obj) {
+        os
+            << "var1: " << obj.m_var1
+            << ", var2: " << obj.m_var2
+            << ", var3: " << obj.m_var3;
+
+        return os;
+    }
+
+    template <typename T,typename ... TArgs>
+    std::unique_ptr<T> my_make_unique(TArgs ... args)  // Parameter Pack
+    {
+        std::unique_ptr<T> tmp(new T{ args ... });   // Pack auspacken: Komma-getrennte Liste wird erzeugt
+
+        return tmp;
+    }
+
+    static void test_variadic_seminar_unique_ptr_motivation()
+    {
+        std::unique_ptr<Unknown> ptr1 = std::make_unique<Unknown>(11, 12, 13);
+
+        std::unique_ptr<Unknown> ptr2 = my_make_unique<Unknown, int, int, int>(11, 12, 13);
+
+        // Type Deduction
+        std::unique_ptr<Unknown> ptr3 = my_make_unique<Unknown>(11, 12, 13);
+    }
+
+
+    static void test_variadic_seminar()
+    {
+        std::vector<Unknown> data;
+
+        // data.push_back(Unknown { 1, 2 ,3 });  // Hinter den Kulissen: 2 MAL ein Unknown-Objekt
+    
+        data.emplace_back(1, 2, 3);    // Hinter den Kulissen: Nur EIN Unknown-Objekt
+    }
+}
+
 namespace VariadicTemplatesIntro_01 {
 
     // ====================================================================
@@ -352,6 +444,9 @@ namespace VariadicTemplatesIntro_06 {
 
 void main_variadic_templates_introduction()
 {
+    VariadicTemplatesSeminar::test_variadic_seminar();
+    return;
+
     VariadicTemplatesIntro_01::test_printer_01();
 
     VariadicTemplatesIntro_02::test_my_make_unique();

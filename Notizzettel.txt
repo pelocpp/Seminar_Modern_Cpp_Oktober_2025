@@ -1308,4 +1308,192 @@ std::reference_wrapper
 
 =======================================================
 
+Modul-Konzept:
+
+C++ IntelliSense support for C++20 Modules is currently experimental.
+Help improve the experience by reporting any issues at https://aka.ms/CppIntelliSenseModules. 
+
+======================================================
+
+std::variant
+
+Kann Daten unterschiedlichen Typs aufnehmen, halten,
+
+zu einem Zeitpunkt nur EIN Datum.
+
+// union aus C
+
+
+Excel-Anwendung // Google Sheets:  Zelle Cell
+
+In einer Zelle sind Daten:
+
+Zeichenketten
+Currency
+Num. Werte
+Zeitangaben
+
+Man kann einen Variant besuchen ...
+
+=============================================================
+
+Generische Funktionen  // C++ 20
+
+Sehr intuitive , angenehme Syntax
+
+auto:
+
+== Variablenvereinbarung
+== Rückgabetyp einer Funktion
+== Parameter
+
+=============================================================
+
+Ab C++ 20:
+
+Es gibt eine neue if-Anweisung:
+
+if-Anweisung zur Übersetzungszeit
+if-Anweisung, die der COmpiler auswertet
+
+Syntax:
+
+if constexpr
+
+=======================================================
+
+Variadische Templates
+
+i)   Sind nicht ganz einfach
+ii)  Werdet ihr möglicherweise nicht gleich einsetzen
+
+iii) VERSTÄNDNIS
+
+Beliebig viele Parameter:
+
+Wie geht es:
+
+
+Nicht mit Core C++ Mitteln // generischen Programmierung
+
+
+printer({ 1, 2, 3, 4, 5 });
+
+Mit std::initializer_list:  ==> Werte müssen vom selben Typ sein.
+
+
+"Absolut misteriös":  Whyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+...  C Ellipsis
+
+printf("format", a, b, c);
+
+
+printer<int, int, int, int>( 1, 2, 3, 4 );
+
+Wie wird dieser Aufruf von C++ umgesetzt:
+
+Mit mehreren Aufrufen einer printer-Funktion.
+
+Genauer / Exakter: Spezialisierungen eines Funktions-Templates.
+
+Sieht rekursiv aus ... aber es sind Spezialisierungen.
+
+Whyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+Mit Hilfe dieser Technik können 
+
+Daten // unterschiedlicher Anzahl // unterschiedlichen Typs
+
+von A nach B transportiert werden.
+
+
+
+template <typename T>
+void PrintContainer2(const T& data)
+
+WIEDERVERWENDUNG
+
+Nur einmal den Code schreiben !!!
+
+
+// =================================================
+
+Variadische Templates:
+
+Whyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+a) std::make_unique
+
+b) emplace-Technik:  The arguments args... are forwarded to the constructor
+
+c) Multithreading:
+
+   std::thread  ===> Thread-Prozedur:
+
+                Welche // wie viele Parameter hat eine Thread-Prozedur  ???
+
+                Doku: Kann man fest definieren.
+
+                C++: 
+
+template< class F, class ... Args >
+explicit thread( F f, Args... args );   // beliebig viele Parameter unterschiedlichen Typs sein
+
+Weiterreichen von Daten vom Aufruf (Konstruktor std::thread)
+zur Thread-Prozedur .
+
+template< class F, class... Args >
+explicit thread( F&& f, Args&&... args );
+
+Warum  Args&&  // sieht wie RValue aus.
+
+Antwort: 
+
+Um die Daten PERFEKT weiterzuleiten.
+
+Wie
+
+i)  In Form von Kopien, wenn das Argument einen Namen hat.  
+ii) Durch Verschieben, wenn das Argument KEINEN Namen hat.  
+
+C++:  Perfect Forwarding
+
+===========================================================
+
+Folding-Ausdrücke:
+
+Technik
+
+i)  Variadische Templates sind dabei
+ii) Emebedded:  Performanz
+    Whyyyyyyyyyyyyyyyyyyyyyyyy
+
+
+int sum = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10;
+
+int sum = (a1 + (a2 + (a3 + (a4 + a5 + a6 + a7 + a8 + a9 + a10))));
+
+Derselbe Operator:
+
+2 Teile:
+
+a) Wie bekommen wir beliebig viele Wert in die Nähe eines Operators:
+  ==> Parameter an eine Funktion übergeben.
+
+b) Spezielle Syntax für einen solchen Ausdruck:
+
+      a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8 + a9 + a10
+
+
+All-In
+
+========================================================
+
+AndAll
+
+// true && true && true && true && true && true
+bool result = AndAll (true, true, true, true, true, true);   // true
+
+bool result = AndAll (true, true, true, true, false, true);   // false
 

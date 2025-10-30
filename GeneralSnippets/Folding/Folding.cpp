@@ -8,6 +8,60 @@ module;
 
 module modern_cpp:folding;
 
+
+
+namespace Folding_Seminar {
+
+    //template <typename ... TArgs>
+    //int addierer(TArgs ... args) {
+
+    //    //            (... op pack)
+    //    auto result = (... +  args);
+
+    //    return result;
+    //}
+
+    auto addierer(auto ... args) {
+        return (... + args);
+    }
+
+    template <typename ... TArgs>
+    int subtrahierer(TArgs ... args) {
+
+        auto result = (... - args);  // ((pack1 op pack2) op ...) op packN
+
+        //       (pack op ...)
+        result = (args - ...);  // pack1 op (... op (packN-1 op packN))
+
+        return result;
+    }
+
+
+    void test_seminar_folding()
+    {
+        auto result = addierer(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        auto result2 = addierer(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0);
+
+        // ((1 - 2) - 3)   = -4
+        // (1 - (2 - 3)) = +2
+
+        result = subtrahierer(1, 2, 3, 4, 5, 6, 7, 8);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 namespace Folding {
 
     /* folding examples: introduction
@@ -206,8 +260,13 @@ namespace Folding {
     }
 }
 
+
 void main_folding()
 {
+    using namespace Folding_Seminar;
+    test_seminar_folding();
+    return;
+
     using namespace Folding;
     test_01();
     test_02();

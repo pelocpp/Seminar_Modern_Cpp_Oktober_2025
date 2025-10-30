@@ -2,6 +2,11 @@
 // Variant.cpp // std::variant
 // =====================================================================================
 
+module;
+
+#include <variant>
+#include <vector>
+
 module modern_cpp:variant;
 
 namespace VariantDemo {
@@ -109,13 +114,66 @@ namespace VariantDemo {
 
     // -------------------------------------------------------------------
 
+
+
+    // primary template
+    template <class T>
+    struct my_remove_reference
+    {
+        using type = T;  // gebe dem T einen Namen
+    };
+
+    // secondary template // template specialization
+    template <>
+    struct my_remove_reference<long>
+    {
+        using type = long;  // gebe dem T einen Namen
+    };
+
+    // second secondary template // second template specialization
+    template <class T>
+    struct my_remove_reference <T&> {
+        using type = T;
+    };
+
+    void test_types()
+    {
+        std::vector<int> numbers;
+        std::vector<int>::value_type n = 123;
+        numbers.push_back(n);
+
+        using MyType = my_remove_reference<long>::type;
+    }
+
+
     static void test_04() {
 
         std::variant<int, double, std::string> v{ 123 };
 
         // using a generic visitor (matching all types in the variant)
-        auto visitor = [](const auto& elem) {
-            std::println("{}", elem);
+        auto visitor = [](const auto& elem ) {
+            // Fallunterscheidung ???
+
+            using Typ = decltype(elem);
+            using TypWithoutRef = my_remove_reference<Typ>::type;
+            using TypWithoutRefAndConst = std::remove_const<TypWithoutRef>::type;
+
+            if constexpr ( std::is_same <int, TypWithoutRefAndConst>::value == true ) {
+                std::println("int {}", elem);
+            }
+            else if constexpr (std::is_same <double, TypWithoutRefAndConst>::value == true) {
+                std::println("double {}", elem);
+            }
+            else if constexpr (std::is_same <std::string, TypWithoutRefAndConst>::value == true)
+            {
+                std::println("std::string {}", elem);
+
+                auto len = elem.size();
+                std::println("Length: {}", len);
+            }
+            else{
+                std::println("Unbekannt");
+            }
         };
 
         std::visit(visitor, v);
@@ -337,17 +395,17 @@ void main_variant()
 {
     using namespace VariantDemo;
 
-    test_01();
-    test_02();
-    test_03();
+    //test_01();
+    //test_02();
+    //test_03();
     test_04();
-    test_05();
-    test_06();
-    test_07();
-    test_08();
-    test_09();
-    test_10();
-    test_11();
+    //test_05();
+    //test_06();
+    //test_07();
+    //test_08();
+    //test_09();
+    //test_10();
+    //test_11();
 }
 
 // =====================================================================================

@@ -28,15 +28,18 @@ namespace GenericFunctions {
     // ---------------------------------------------------------------------------------
     // generic function - how the compiler sees them
 
+    // Funktionstemplate // Primäres Template
     template<typename T>
     static void Function(T x, int y)
     {
         std::cout << "x=" << x << ", y=" << y << std::endl;
     }
 
+    // Template Spezialisierung
     template<>
-    void Function<int>(int x, int y)
+    void Function <int> (int x, int y)
     {
+        std::cout << "habe ein Int" << y << std::endl;
         std::cout << "x=" << x << ", y=" << y << std::endl;
     }
 

@@ -201,7 +201,7 @@ static void main_seminar_stl_08()
     std::for_each(
         numbers.begin(),
         numbers.end(),
-        [&] (int elem) {
+        [&] (auto elem) {
             std::println("{}: {}", header, elem);
         }
     );

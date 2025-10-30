@@ -13,6 +13,7 @@ import std;
 
 extern void main_seminar_stl();
 extern void main_seminar_stl_02();
+extern void main_seminar_templates();
 
 int main()
 {
@@ -26,6 +27,7 @@ int main()
     {
        // main_seminar_stl();
       //  main_seminar_stl_02();
+      //  main_seminar_templates();
 
         //main_accumulate();
       //  main_algorithms();
@@ -57,12 +59,12 @@ int main()
         //main_exception_safety();
        // main_expected();
         //main_explicit_keyword();
-        //main_folding();
+        main_folding();
         //main_functional_programming_ranges();
         //main_functional_programming();
         //main_functional_programming_alternate();
         //main_generate();
-        //main_generic_functions();
+      //  main_generic_functions();
      //  main_initializer_list();
         //main_input_output_streams();  
         //main_invoke();
@@ -84,7 +86,7 @@ int main()
         //main_raii_02();
         //main_random();
         //main_range_based_for_loop();
-        main_reference_wrapper();
+     //   main_reference_wrapper();
         //main_regular_expressions();
         //main_rvalue_lvalue();
         //main_sfinae();
@@ -107,11 +109,11 @@ int main()
         //main_type_erasure();
         //main_type_traits();
        // main_unique_ptr();
-        //main_variadic_templates_introduction();
+      //  main_variadic_templates_introduction();
         //main_variadic_templates_working_on_every_argument();
         //main_variadic_templates_sum_of_sums();
         //main_variadic_templates_mixins();
-        //main_variant();
+      //  main_variant();
         //main_virtual_base_class_destructor();
         //main_virtual_override_final();
      //   main_weak_pointer();
